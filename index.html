@@ -1021,29 +1021,8 @@ function drawMap(month,year,day,cn,clat,clon){
   }
   ctx.restore();
 
-  // ── 6. Latitude/Longitude grid ──
-  <!--
-  ctx.lineWidth=0.3;
-  ctx.strokeStyle='rgba(100,150,220,0.06)';
-  for(let lo=-180;lo<=180;lo+=30){
-    const[x]=px(lo,0);
-    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,CH);ctx.stroke();
-  }
-  for(let la=-60;la<=60;la+=30){
-    const[,y]=px(0,la);
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();
-  }
-  // Equator — very subtle
-  ctx.strokeStyle='rgba(160,200,255,0.10)';ctx.lineWidth=0.5;
-  const[,eqY]=px(0,0);
-  ctx.beginPath();ctx.moveTo(0,eqY);ctx.lineTo(CW,eqY);ctx.stroke();
-  // Tropics — remove or make nearly invisible
-  ctx.strokeStyle='rgba(201,168,76,0.05)';ctx.lineWidth=0.4;
-  ctx.setLineDash([4,8]);
-  const[,tcY]=px(0,23.5);ctx.beginPath();ctx.moveTo(0,tcY);ctx.lineTo(CW,tcY);ctx.stroke();
-  const[,tcpY]=px(0,-23.5);ctx.beginPath();ctx.moveTo(0,tcpY);ctx.lineTo(CW,tcpY);ctx.stroke();
-  ctx.setLineDash([]);
-  -->
+  // ── 6. Latitude/Longitude grid ── Removed
+  
 
   // ── 7. Country marker with pulsing rings ──
   if(cn){
@@ -1076,21 +1055,25 @@ function drawMap(month,year,day,cn,clat,clon){
   }
 
   // ── 8. Bottom info bar ──
-  const barH=30;
-  const barGrad=ctx.createLinearGradient(0,CH-barH,0,CH);
+  const barGrad=ctx.createLinearGradient(0,CH-50,0,CH);
   barGrad.addColorStop(0,'rgba(5,8,18,0)');
-  barGrad.addColorStop(0.4,'rgba(5,8,18,0.85)');
-  barGrad.addColorStop(1,'rgba(5,8,18,0.95)');
+  barGrad.addColorStop(0.4,'rgba(5,8,18,0.90)');
+  barGrad.addColorStop(1,'rgba(5,8,18,0.98)');
   ctx.fillStyle=barGrad;
-  ctx.fillRect(0,CH-barH,CW,barH);
+  ctx.fillRect(0,CH-50,CW,50);
 
   const CM=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const hh=String(Math.floor(nmd.hours)).padStart(2,'0');
   const mm=String(Math.round((nmd.hours%1)*60)).padStart(2,'0');
   const conjStr=`Conjunction: ${nmd.day} ${CM[nmd.month-1]} ${nmd.year}  ${hh}:${mm} UTC`;
-  ctx.font=`${CW>600?12:9}px "Space Mono",monospace`;
-  ctx.fillStyle='rgba(201,168,76,0.95)';
-  ctx.fillText(conjStr, 12, CH-10);
+  const fontSize=CW>800?16:12;
+  ctx.font=`bold ${fontSize}px "Space Mono",monospace`;
+  // Shadow for readability
+  ctx.shadowColor='rgba(0,0,0,0.9)';
+  ctx.shadowBlur=6;
+  ctx.fillStyle='rgba(232,201,122,1.0)';
+  ctx.fillText(conjStr, 14, CH-14);
+  ctx.shadowBlur=0;;
 
   // ── 9. Top title bar ──
   const topGrad=ctx.createLinearGradient(0,0,0,36);
