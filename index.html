@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Moon Sighting — চাঁদ দেখা</title>
+<link rel="icon" href="GoldenMoon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&family=Hind+Siliguri:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#07090f;--deep:#0d1220;--mid:#131929;--surface:#1a2236;--border:#2a3550;
+  --gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:#7a6030;
+  --silver:#9baac8;--silver-light:#c5d3e8;--white:#f0f4ff;
+  --green:#4caf7a;--red:#e05555;--amber:#e8933a;--text:#d0dcf0;--text-dim:#7a8faf;
+  --fe:'Crimson Pro',Georgia,serif;--fb:'Hind Siliguri',sans-serif;--fm:'Space Mono',monospace;
+  --max:1240px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--night);color:var(--text);font-family:var(--fe);font-size:18px;line-height:1.75;overflow-x:hidden;}
+.en-text,.en-block{display:inline;}
+.bn-text,.bn-block{display:none;}
+[data-lang="bn"] .en-text,[data-lang="bn"] .en-block{display:none;}
+[data-lang="bn"] .bn-text,[data-lang="bn"] .bn-block{display:inline;}
+.en-block,[data-lang="bn"] .bn-block{display:block;}
+[data-lang="bn"] .en-block{display:none;}
+
+/* STARS */
+.stars-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+#sc{position:absolute;inset:0;width:100%;height:100%;}
+.page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+
+/* FLOAT BTNS */
+.fbtns{position:fixed;right:18px;bottom:90px;z-index:200;display:flex;flex-direction:column;gap:8px;}
+.fbtn{width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:rgba(13,18,32,0.92);color:var(--gold);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(10px);text-decoration:none;}
+.fbtn:hover{background:var(--surface);border-color:var(--gold);transform:scale(1.08);}
+
+/* LANG */
+.ltog{position:fixed;top:16px;right:20px;z-index:300;display:flex;background:rgba(13,18,32,0.96);border:1px solid var(--border);border-radius:8px;overflow:hidden;backdrop-filter:blur(12px);}
+.lbtn{padding:7px 16px;font-family:var(--fm);font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:none;cursor:pointer;transition:.2s;}
+.lbtn.active{background:var(--gold);color:var(--night);}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,9,15,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 3rem;display:flex;align-items:center;gap:0;height:64px;padding-right:175px;}
+.brand{font-family:var(--fm);font-size:0.9rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;text-decoration:none;margin-right:2.5rem;}
+.nav-links{display:flex;gap:0;overflow-x:auto;}
+.nav-link{font-family:var(--fm);font-size:0.73rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:.2s;flex-shrink:0;padding:0 1.2rem;height:64px;display:flex;align-items:center;border-bottom:2px solid transparent;cursor:pointer;}
+.nav-link:hover{color:var(--gold-light);}
+.nav-link.active{color:var(--gold-light);border-bottom-color:var(--gold);}
+
+/* PAGES */
+.pg{display:none;flex:1;flex-direction:column;animation:pgIn 0.3s ease;}
+.pg.visible{display:flex;}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 3rem;}
+.moon-g{width:170px;height:170px;margin:0 auto 2.5rem;animation:mf 6s ease-in-out infinite;}
+@keyframes mf{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.moon-g svg{width:100%;height:100%;filter:drop-shadow(0 0 45px rgba(201,168,76,0.45));}
+.hero-sub{font-family:var(--fm);font-size:1rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1rem;}
+.hero h1{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:0.4rem;}
+.hero h1 em{color:var(--gold-light);font-style:italic;}
+.hero .lead{max-width:980px;font-size:1.2rem;color:var(--silver);font-weight:300;font-style:italic;margin:1.4rem auto 3rem;}
+.hero-nav{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem;}
+.hnav-btn{font-family:var(--fm);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.8rem 1.6rem;border-radius:8px;border:1px solid var(--border);background:rgba(26,34,54,0.6);color:var(--silver);cursor:pointer;transition:.2s;backdrop-filter:blur(8px);}
+.hnav-btn:hover{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,0.08);}
+
+/* SECTIONS */
+.sec-wrap{max-width:var(--max);margin:0 auto;padding:5rem 3rem;width:100%;}
+.sec-wrap:not(:last-child){border-bottom:1px solid rgba(42,53,80,0.5);}
+.sec-label{font-family:var(--fm);font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:1.4rem;display:flex;align-items:center;gap:1rem;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+h2{font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.2;color:var(--white);margin-bottom:1.5rem;}
+h2 em{color:var(--gold-light);font-style:italic;}
+h3{font-size:1.35rem;font-weight:600;color:var(--silver-light);margin:2.2rem 0 0.8rem;}
+h4{font-size:1.1rem;font-weight:600;color:var(--silver-light);margin-bottom:0.5rem;}
+p{color:var(--text);margin-bottom:1rem;font-size:1.05rem;line-height:1.75;}
+p:last-child{margin-bottom:0;}
+
+/* MAP  */
+.map-wrap{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:4.5rem 0;width:100%;}
+.map-inner{max-width:var(--max);margin:0 auto;padding:0 3rem;}
+.map-controls{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.4rem;margin-top:1.8rem;margin-bottom:2rem;}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem;margin-bottom:1.8rem;}
+.cg label{display:block;font-family:var(--fm);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
+select,input[type="number"]{width:100%;background:var(--mid);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--fe);font-size:1rem;padding:0.75rem 1.1rem;outline:none;transition:.2s;appearance:none;-webkit-appearance:none;cursor:pointer;}
+select:focus,input[type="number"]:focus{border-color:var(--gold);}
+.sw{position:relative;}
+.sw::after{content:'▾';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--gold-dim);pointer-events:none;}
+.btn{display:inline-flex;align-items:center;gap:0.6rem;background:var(--gold);color:var(--night);font-family:var(--fm);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.95rem 2.2rem;border-radius:8px;border:none;cursor:pointer;transition:.2s;}
+.btn:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+
+/* MAP OUTPUT */
+.map-out{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:none;animation:pgIn 0.5s ease;}
+.map-out.vis{display:block;}
+.map-hdr{padding:1.2rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;}
+.map-ttl{font-family:var(--fm);font-size:0.8rem;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;}
+.map-sub{font-size:0.88rem;color:var(--text-dim);}
+.cv-wrap{position:relative;width:100%;line-height:0;background:#0b1a30;}
+#hc{width:100%;display:block;}
+.mspin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,15,30,0.93);gap:1rem;}
+.mspin.h{display:none;}
+.sp{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .85s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp-txt{font-family:var(--fm);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.1em;}
+.lgd{padding:1.2rem 1.8rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;}
+.li{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--text-dim);}
+.ld{width:16px;height:16px;border-radius:4px;flex-shrink:0;}
+.cpanel{padding:1.4rem 1.8rem;border-top:1px solid var(--border);}
+.cpl{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:0.9rem;}
+.cr{background:var(--mid);border-radius:10px;padding:1.2rem 1.6rem;border-left:3px solid var(--gold);}
+.crn{font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:0.25rem;}
+.crs{font-family:var(--fm);font-size:0.7rem;color:var(--gold);letter-spacing:0.08em;margin-bottom:0.8rem;}
+.crb{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1.1rem;border-radius:20px;font-family:var(--fm);font-size:0.72rem;font-weight:700;letter-spacing:0.05em;margin-bottom:0.8rem;}
+.crb.g{background:rgba(76,175,122,0.15);color:var(--green);border:1px solid rgba(76,175,122,0.3);}
+.crb.a{background:rgba(232,147,58,0.12);color:var(--amber);border:1px solid rgba(232,147,58,0.3);}
+.crb.y{background:rgba(235,195,0,0.10);color:#c8a800;border:1px solid rgba(200,170,0,0.3);}
+.crb.r{background:rgba(224,85,85,0.12);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+.crd{font-size:0.92rem;color:var(--text-dim);margin:0;}
+.mftr{padding:0.9rem 1.8rem;border-top:1px solid var(--border);}
+.mftr p{font-family:var(--fm);font-size:0.62rem;color:var(--text-dim);margin:0;}
+
+/* CARDS */
+.cg2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;margin-top:2rem;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.8rem;transition:.3s;position:relative;overflow:hidden;}
+.card:hover{border-color:var(--gold-dim);transform:translateY(-3px);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+.ci{font-size:2rem;margin-bottom:0.8rem;display:block;}
+.card h4{color:var(--silver-light);margin-bottom:0.5rem;}
+.card p{font-size:0.95rem;color:var(--text-dim);margin:0;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin-top:1.5rem;font-size:0.95rem;}
+.tbl th{font-family:var(--fm);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);padding:0.85rem 1.1rem;text-align:left;border-bottom:2px solid var(--gold-dim);background:rgba(201,168,76,0.05);}
+.tbl td{padding:0.8rem 1.1rem;border-bottom:1px solid var(--border);vertical-align:top;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:rgba(201,168,76,0.03);}
+.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-family:var(--fm);font-size:0.65rem;font-weight:700;}
+.bg{background:rgba(76,175,122,0.15);color:var(--green);border:1px solid rgba(76,175,122,0.3);}
+.br{background:rgba(224,85,85,0.15);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+.ba{background:rgba(232,147,58,0.15);color:var(--amber);border:1px solid rgba(232,147,58,0.3);}
+
+/* HADITH */
+.hadith{background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.02));border-left:3px solid var(--gold);padding:1.5rem 2rem;border-radius:0 12px 12px 0;margin:2.2rem 0;font-style:italic;font-size:1.1rem;color:var(--silver-light);}
+.href{margin-top:0.8rem;font-style:normal;font-family:var(--fm);font-size:0.67rem;color:var(--gold-dim);letter-spacing:0.07em;}
+
+/* METHODS */
+.method{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.6rem;margin:1.2rem 0;display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:start;}
+.ml{font-family:var(--fm);font-size:1.5rem;font-weight:700;color:var(--gold);line-height:1;}
+.mb h4{font-family:var(--fm);font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;color:var(--white);margin-bottom:0.45rem;}
+.mb p{font-size:0.95rem;color:var(--text-dim);margin:0;}
+.mb a{color:var(--gold);}
+
+/* ACCEPT/REJECT */
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1.8rem;}
+.arb{border-radius:14px;padding:1.5rem;}
+.arb.ac{background:rgba(76,175,122,0.07);border:1px solid rgba(76,175,122,0.2);}
+.arb.rj{background:rgba(224,85,85,0.07);border:1px solid rgba(224,85,85,0.2);}
+.arb h4{font-family:var(--fm);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.9rem;}
+.arb.ac h4{color:var(--green);}
+.arb.rj h4{color:var(--red);}
+.arb ul{list-style:none;}
+.arb ul li{font-size:0.95rem;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;gap:0.6rem;}
+.arb ul li:last-child{border-bottom:none;}
+.arb.ac ul li::before{content:'✓';color:var(--green);flex-shrink:0;}
+.arb.rj ul li::before{content:'✗';color:var(--red);flex-shrink:0;}
+
+/* SOURCES */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.2rem;margin-top:2rem;}
+.sc2{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;text-decoration:none;display:block;transition:.3s;position:relative;}
+.sc2:hover{border-color:var(--gold);transform:translateY(-3px);}
+.sc2 .su{font-family:var(--fm);font-size:0.63rem;color:var(--gold-dim);letter-spacing:0.04em;margin-bottom:0.4rem;display:block;word-break:break-all;}
+.sc2 .sn{font-size:1.05rem;font-weight:600;color:var(--silver-light);margin-bottom:0.35rem;}
+.sc2 .sd{font-size:0.9rem;color:var(--text-dim);line-height:1.5;}
+.sc2 .sx{position:absolute;top:1rem;right:1rem;color:var(--gold-dim);}
+
+/* CHECKER */
+.checker-box{background:var(--deep);border:1px solid var(--border);border-radius:16px;padding:2.4rem;margin-top:2rem;}
+.cg3{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.6rem 0;}
+.cg3 label{display:block;font-family:var(--fm);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:0.5rem;}
+.rb{margin-top:1.6rem;padding:1.3rem 1.6rem;border-radius:12px;font-size:0.98rem;display:none;animation:pgIn 0.4s ease;}
+.rv{background:rgba(76,175,122,0.12);border:1px solid rgba(76,175,122,0.3);color:#7fe0aa;display:block;}
+.ru{background:rgba(232,147,58,0.12);border:1px solid rgba(232,147,58,0.3);color:#f0b86a;display:block;}
+.ri{background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;display:block;}
+.rt{font-family:var(--fm);font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem;margin-top:1.8rem;}
+.how-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.6rem;position:relative;}
+.how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+.how-num{font-family:var(--fm);font-size:1.8rem;font-weight:700;color:rgba(201,168,76,0.25);line-height:1;margin-bottom:0.6rem;}
+.how-title{font-family:var(--fm);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
+.how-card p{font-size:0.92rem;color:var(--text-dim);margin:0;}
+
+/* VIS METER */
+.vm{margin:1rem 0;}
+.vml{display:flex;justify-content:space-between;font-family:var(--fm);font-size:0.67rem;color:var(--text-dim);margin-bottom:0.45rem;}
+.vt{height:12px;border-radius:6px;background:var(--surface);}
+.vf{height:100%;border-radius:6px;}
+
+/* DIVIDER */
+.divider{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:2.8rem 0;}
+
+/* FOOTER */
+footer{text-align:center;padding:1rem 1rem 2rem;border-top:1px solid var(--border);background:var(--deep);margin-top:auto;}
+footer .ms{font-size:2.4rem;margin-bottom:1rem;display:block;}
+.far{font-size:1.5rem;color:var(--gold);margin-bottom:0.4rem;font-family:serif;}
+.fdu{font-style:italic;color:var(--text-dim);font-size:0.98rem;margin-bottom:1.6rem;}
+.fcp{font-family:var(--fm);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.1em;line-height:2.2;}
+footer a{color:var(--gold-dim);text-decoration:none;}
+footer a:hover{color:var(--gold);}
+footer hr{border:none;border-top:1px solid var(--border);margin:1.6rem auto;max-width:320px;}
+
+@media(max-width:700px){
+  .sec-wrap{padding:3.5rem 1.4rem;}
+  nav{padding:0 1.2rem;padding-right:130px;}
+  .map-inner{padding:0 1.4rem;}
+  .cg3{grid-template-columns:1fr;}
+  .ar{grid-template-columns:1fr;}
+  .hero h1{font-size:2.6rem;}
+}
+
+/* ── MOBILE NAV ── */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;flex-shrink:0;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px;transition:.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:rgba(7,9,15,0.98);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0.8rem 0;animation:pgIn 0.2s ease;}
+.mobile-menu.open{display:block;}
+.mobile-menu .mm-link{display:flex;align-items:center;padding:0.9rem 2rem;font-family:var(--fm);font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:.2s;border-left:3px solid transparent;}
+.mobile-menu .mm-link:hover{color:var(--gold-light);background:rgba(201,168,76,0.05);}
+.mobile-menu .mm-link.active{color:var(--gold-light);border-left-color:var(--gold);background:rgba(201,168,76,0.06);}
+
+@media(max-width:768px){
+  .hamburger{display:flex;}
+  .nav-links{display:none;}
+  nav{padding:0 1.2rem;padding-right:1.2rem;}
+  .ltog{top:16px;right:70px;}
+}
+
+</style>
+</head>
+<body>
+<div class="stars-bg"><canvas id="sc"></canvas></div>
+<div class="ltog">
+  <button class="lbtn active" id="btnEn" onclick="setLang('en')">EN</button>
+  <button class="lbtn" id="btnBn" onclick="setLang('bn')">বাং</button>
+</div>
+<div class="fbtns">
+  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="fbtn">↑</a>
+  <a href="#" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});return false;" class="fbtn">↓</a>
+</div>
+
+<div class="page" id="top">
+<!-- NAV -->
+<nav>
+  <a href="#" class="brand" onclick="showPage('home');closeMobileMenu();return false;">☽ <span class="en-text">Hilal</span><span class="bn-text">হিলাল</span></a>
+  <div class="nav-links">
+    <span class="nav-link active" id="nl-home" onclick="showPage('home')"><span class="en-text">Home</span><span class="bn-text">হোম</span></span>
+    <span class="nav-link" id="nl-basics" onclick="showPage('basics')"><span class="en-text">Basics</span><span class="bn-text">মূলনীতি</span></span>
+    <span class="nav-link" id="nl-science" onclick="showPage('science')"><span class="en-text">Science</span><span class="bn-text">বিজ্ঞান</span></span>
+    <span class="nav-link" id="nl-methods" onclick="showPage('methods')"><span class="en-text">Methods</span><span class="bn-text">পদ্ধতি</span></span>
+    <span class="nav-link" id="nl-checker" onclick="showPage('checker')"><span class="en-text">Checker</span><span class="bn-text">পরীক্ষক</span></span>
+    <span class="nav-link" id="nl-sources" onclick="showPage('sources')"><span class="en-text">Sources</span><span class="bn-text">উৎস</span></span>
+  </div>
+  <!-- Hamburger button -->
+  <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile dropdown menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-link active" id="mm-home" onclick="showPage('home');closeMobileMenu()"><span class="en-text">🏠 Home</span><span class="bn-text">🏠 হোম</span></div>
+  <div class="mm-link" id="mm-basics" onclick="showPage('basics');closeMobileMenu()"><span class="en-text">📖 Basics</span><span class="bn-text">📖 মূলনীতি</span></div>
+  <div class="mm-link" id="mm-science" onclick="showPage('science');closeMobileMenu()"><span class="en-text">🔬 Science</span><span class="bn-text">🔬 বিজ্ঞান</span></div>
+  <div class="mm-link" id="mm-methods" onclick="showPage('methods');closeMobileMenu()"><span class="en-text">✅ Methods</span><span class="bn-text">✅ পদ্ধতি</span></div>
+  <div class="mm-link" id="mm-checker" onclick="showPage('checker');closeMobileMenu()"><span class="en-text">🔍 Checker</span><span class="bn-text">🔍 পরীক্ষক</span></div>
+  <div class="mm-link" id="mm-sources" onclick="showPage('sources');closeMobileMenu()"><span class="en-text">📚 Sources</span><span class="bn-text">📚 উৎস</span></div>
+</div>
+
+<!-- ══════════════ PAGE: HOME ══════════════ -->
+<div class="pg visible" id="pg-home">
+  <div class="hero">
+    <div class="moon-g"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="mg" cx="40%" cy="35%"><stop offset="0%" stop-color="#f0e8c0"/><stop offset="60%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a6030"/></radialGradient><mask id="cm"><rect width="200" height="200" fill="white"/><circle cx="135" cy="85" r="68" fill="black"/></mask></defs><circle cx="80" cy="100" r="72" fill="rgba(201,168,76,0.07)"/><circle cx="80" cy="100" r="68" fill="url(#mg)" mask="url(#cm)"/><circle cx="158" cy="50" r="2" fill="#c9a84c" opacity="0.8"/><circle cx="170" cy="130" r="1.5" fill="#9baac8" opacity="0.6"/><circle cx="30" cy="40" r="1.5" fill="#9baac8" opacity="0.5"/><circle cx="175" cy="75" r="1" fill="white" opacity="0.9"/></svg></div>
+    <p class="hero-sub">هلال &nbsp;·&nbsp; HILAL &nbsp;·&nbsp; হিলাল</p>
+    <h1><span class="en-text">Moon Sighting<br><em>Explained</em></span><span class="bn-text">চাঁদ দেখা<br><em>ব্যাখ্যা করা হয়েছে</em></span></h1>
+    <p class="lead"><span class="en-text">Combining Islamic tradition with modern astronomy to determine the beginning of the lunar month — clearly, and without confusion.</span><span class="bn-text">ইসলামী ঐতিহ্য ও আধুনিক জ্যোতির্বিজ্ঞানের সমন্বয়ে চন্দ্র মাসের শুরু নির্ধারণ—সুস্পষ্টভাবে এবং কোনো বিভ্রান্তি ছাড়াই।</span></p>
+    <!--
+    <div class="hero-nav">
+      <button class="hnav-btn" onclick="showPage('basics')">📖 <span class="en-text">Basics</span><span class="bn-text">মূলনীতি</span></button>
+      <button class="hnav-btn" onclick="showPage('science')">🔬 <span class="en-text">Science</span><span class="bn-text">বিজ্ঞান</span></button>
+      <button class="hnav-btn" onclick="showPage('methods')">✅ <span class="en-text">Methods</span><span class="bn-text">পদ্ধতি</span></button>
+      <button class="hnav-btn" onclick="showPage('checker')">🔍 <span class="en-text">Checker</span><span class="bn-text">পরীক্ষক</span></button>
+      <button class="hnav-btn" onclick="showPage('sources')">📚 <span class="en-text">Sources</span><span class="bn-text">উৎস</span></button>
+    </div>
+    -->
+  </div>
+
+  <!-- MAP SECTION -->
+  <div class="map-wrap">
+    <div class="map-inner">
+      <div class="sec-label">00 — <span class="en-text">Crescent Visibility Map</span><span class="bn-text">হিলাল দৃশ্যমানতা মানচিত্র</span></div>
+      <h2><span class="en-text">Generate <em>Visibility Map</em></span><span class="bn-text">দৃশ্যমানতা মানচিত্র <em>তৈরি করুন</em></span></h2>
+      <p><span class="en-text">Select an Islamic month, Hijri year, sighting day and your country. The map is calculated entirely on this page using Odeh 2006 criterion — no external site needed.</span><span class="bn-text">ইসলামিক মাস, হিজরি সন, দেখার দিন ও আপনার দেশ নির্বাচন করুন। মানচিত্রটি ওডেহ ২০০৬ মানদণ্ড ব্যবহার করে এই পৃষ্ঠায়ই তৈরি হবে।</span></p>
+      <div class="map-controls">
+        <div class="cg">
+          <div><label><span class="en-text">Islamic Month</span><span class="bn-text">ইসলামিক মাস</span></label><div class="sw"><select id="mapMonth"><option value="1">01 — Muharram محرّم</option><option value="2">02 — Safar صفر</option><option value="3">03 — Rabi al-Awwal ربيع الأوّل</option><option value="4">04 — Rabi al-Thani ربيع الثاني</option><option value="5">05 — Jumada al-Awwal جمادى الأولى</option><option value="6">06 — Jumada al-Thani جمادى الثانية</option><option value="7">07 — Rajab رجب</option><option value="8">08 — Sha'ban شعبان</option><option value="9">09 — Ramadan رمضان</option><option value="10" selected>10 — Shawwal شوّال</option><option value="11">11 — Dhu al-Qa'da ذو القعدة</option><option value="12">12 — Dhu al-Hijja ذو الحجّة</option></select></div></div>
+          <div><label><span class="en-text">Hijri Year</span><span class="bn-text">হিজরি সন</span></label><div class="sw"><select id="mapYear"><option value="1444">1444 AH</option><option value="1445">1445 AH</option><option value="1446">1446 AH</option><option value="1447" selected>1447 AH</option><option value="1448">1448 AH</option><option value="1449">1449 AH</option><option value="1450">1450 AH</option><option value="1451">1451 AH</option><option value="1452">1452 AH</option><option value="1453">1453 AH</option></select></div></div>
+          <div><label><span class="en-text">Moon Sighting On</span><span class="bn-text">চাঁদ দেখার দিন</span></label><div class="sw"><select id="mapDay"><option value="0" selected>Day of Conjunction</option><option value="1">Day After Conjunction (+1)</option><option value="2">Two Days After (+2)</option></select></div></div>
+          <div><label><span class="en-text">Your Country</span><span class="bn-text">আপনার দেশ</span></label><div class="sw"><select id="mapCountry">
+            <option value="">— Select Country —</option>
+            <optgroup label="🌏 South Asia"><option value="Bangladesh" data-lat="23.7" data-lon="90.4">Bangladesh 🇧🇩</option><option value="India" data-lat="22.0" data-lon="79.0">India 🇮🇳</option><option value="Pakistan" data-lat="30.4" data-lon="69.3">Pakistan 🇵🇰</option><option value="Sri Lanka" data-lat="7.9" data-lon="80.7">Sri Lanka 🇱🇰</option><option value="Nepal" data-lat="28.4" data-lon="84.1">Nepal 🇳🇵</option><option value="Maldives" data-lat="3.2" data-lon="73.2">Maldives 🇲🇻</option></optgroup>
+            <optgroup label="🕌 Middle East"><option value="Saudi Arabia" data-lat="24.0" data-lon="45.0">Saudi Arabia 🇸🇦</option><option value="UAE" data-lat="24.5" data-lon="54.4">UAE 🇦🇪</option><option value="Qatar" data-lat="25.3" data-lon="51.2">Qatar 🇶🇦</option><option value="Kuwait" data-lat="29.4" data-lon="47.7">Kuwait 🇰🇼</option><option value="Bahrain" data-lat="26.0" data-lon="50.6">Bahrain 🇧🇭</option><option value="Oman" data-lat="21.5" data-lon="57.6">Oman 🇴🇲</option><option value="Jordan" data-lat="30.6" data-lon="36.1">Jordan 🇯🇴</option><option value="Lebanon" data-lat="33.9" data-lon="35.5">Lebanon 🇱🇧</option><option value="Iraq" data-lat="33.2" data-lon="43.7">Iraq 🇮🇶</option><option value="Iran" data-lat="32.4" data-lon="53.7">Iran 🇮🇷</option><option value="Yemen" data-lat="15.6" data-lon="48.5">Yemen 🇾🇪</option><option value="Syria" data-lat="34.8" data-lon="38.9">Syria 🇸🇾</option><option value="Palestine" data-lat="31.9" data-lon="35.2">Palestine 🇵🇸</option><option value="Turkey" data-lat="39.1" data-lon="35.2">Turkey 🇹🇷</option></optgroup>
+            <optgroup label="🌍 North Africa"><option value="Egypt" data-lat="26.8" data-lon="30.8">Egypt 🇪🇬</option><option value="Libya" data-lat="26.3" data-lon="17.2">Libya 🇱🇾</option><option value="Tunisia" data-lat="33.9" data-lon="9.6">Tunisia 🇹🇳</option><option value="Algeria" data-lat="28.0" data-lon="2.6">Algeria 🇩🇿</option><option value="Morocco" data-lat="32.0" data-lon="-5.0">Morocco 🇲🇦</option><option value="Sudan" data-lat="12.9" data-lon="30.2">Sudan 🇸🇩</option><option value="Somalia" data-lat="5.2" data-lon="46.2">Somalia 🇸🇴</option></optgroup>
+            <optgroup label="🌍 West & East Africa"><option value="Nigeria" data-lat="9.1" data-lon="8.7">Nigeria 🇳🇬</option><option value="Ghana" data-lat="7.9" data-lon="-1.0">Ghana 🇬🇭</option><option value="Senegal" data-lat="14.5" data-lon="-14.5">Senegal 🇸🇳</option><option value="Ethiopia" data-lat="9.1" data-lon="40.5">Ethiopia 🇪🇹</option><option value="Kenya" data-lat="-0.0" data-lon="37.9">Kenya 🇰🇪</option><option value="Tanzania" data-lat="-6.4" data-lon="34.9">Tanzania 🇹🇿</option><option value="South Africa" data-lat="-29.0" data-lon="25.1">South Africa 🇿🇦</option></optgroup>
+            <optgroup label="🌏 South East Asia"><option value="Malaysia" data-lat="4.2" data-lon="108.0">Malaysia 🇲🇾</option><option value="Indonesia" data-lat="-0.8" data-lon="113.9">Indonesia 🇮🇩</option><option value="Brunei" data-lat="4.5" data-lon="114.7">Brunei 🇧🇳</option><option value="Philippines" data-lat="12.9" data-lon="121.8">Philippines 🇵🇭</option><option value="Singapore" data-lat="1.4" data-lon="103.8">Singapore 🇸🇬</option><option value="Thailand" data-lat="13.0" data-lon="101.0">Thailand 🇹🇭</option><option value="Myanmar" data-lat="17.1" data-lon="96.1">Myanmar 🇲🇲</option></optgroup>
+            <optgroup label="🌏 Central & East Asia"><option value="Afghanistan" data-lat="33.9" data-lon="67.7">Afghanistan 🇦🇫</option><option value="Kazakhstan" data-lat="48.0" data-lon="66.9">Kazakhstan 🇰🇿</option><option value="Uzbekistan" data-lat="41.4" data-lon="64.6">Uzbekistan 🇺🇿</option><option value="China" data-lat="35.0" data-lon="103.8">China 🇨🇳</option><option value="Japan" data-lat="36.2" data-lon="138.3">Japan 🇯🇵</option></optgroup>
+            <optgroup label="🌍 Europe"><option value="Germany" data-lat="51.2" data-lon="10.5">Germany 🇩🇪</option><option value="France" data-lat="46.2" data-lon="2.2">France 🇫🇷</option><option value="United Kingdom" data-lat="54.0" data-lon="-2.4">United Kingdom 🇬🇧</option><option value="Netherlands" data-lat="52.1" data-lon="5.3">Netherlands 🇳🇱</option><option value="Belgium" data-lat="50.5" data-lon="4.5">Belgium 🇧🇪</option><option value="Sweden" data-lat="63.0" data-lon="16.0">Sweden 🇸🇪</option><option value="Norway" data-lat="65.5" data-lon="17.0">Norway 🇳🇴</option><option value="Spain" data-lat="40.5" data-lon="-3.7">Spain 🇪🇸</option><option value="Italy" data-lat="41.9" data-lon="12.6">Italy 🇮🇹</option><option value="Bosnia" data-lat="44.2" data-lon="17.9">Bosnia 🇧🇦</option><option value="Albania" data-lat="41.2" data-lon="20.2">Albania 🇦🇱</option></optgroup>
+            <optgroup label="🌎 Americas"><option value="USA" data-lat="38.0" data-lon="-97.0">USA 🇺🇸</option><option value="Canada" data-lat="56.1" data-lon="-106.3">Canada 🇨🇦</option><option value="Mexico" data-lat="23.6" data-lon="-102.6">Mexico 🇲🇽</option><option value="Brazil" data-lat="-10.0" data-lon="-53.2">Brazil 🇧🇷</option><option value="Argentina" data-lat="-35.4" data-lon="-65.2">Argentina 🇦🇷</option><option value="Colombia" data-lat="4.6" data-lon="-74.1">Colombia 🇨🇴</option><option value="Trinidad" data-lat="10.7" data-lon="-61.2">Trinidad 🇹🇹</option></optgroup>
+            <optgroup label="🌏 Oceania"><option value="Australia" data-lat="-25.0" data-lon="133.8">Australia 🇦🇺</option><option value="New Zealand" data-lat="-40.9" data-lon="174.9">New Zealand 🇳🇿</option></optgroup>
+          </select></div></div>
+        </div>
+        <button class="btn" onclick="generateMap()">🌙 <span class="en-text">Generate Visibility Map</span><span class="bn-text">মানচিত্র তৈরি করুন</span></button>
+      </div>
+      <div class="map-out" id="mapOut">
+        <div class="map-hdr"><div class="map-ttl" id="mapTtl"></div><div class="map-sub" id="mapSub"></div></div>
+        <div class="cv-wrap"><canvas id="hc"></canvas><div class="mspin" id="msp"><div class="sp"></div><div class="sp-txt"><span class="en-text">Calculating zones…</span><span class="bn-text">গণনা হচ্ছে…</span></div></div></div>
+        <div class="lgd">
+          <div class="li"><div class="ld" style="background:#1ea528"></div><span class="en-text">Easy naked-eye sighting</span><span class="bn-text">সহজে খালি চোখে দেখা যাবে</span></div>
+          <div class="li"><div class="ld" style="background:#96d72d"></div><span class="en-text">May need optical aid</span><span class="bn-text">অপটিক্যাল সাহায্য লাগতে পারে</span></div>
+          <div class="li"><div class="ld" style="background:#ebc300"></div><span class="en-text">Only with optical aid</span><span class="bn-text">শুধু অপটিক্যাল যন্ত্রে</span></div>
+          <div class="li"><div class="ld" style="background:#373d52"></div><span class="en-text">Not visible / Before conjunction</span><span class="bn-text">দৃশ্যমান নয়</span></div>
+        </div>
+        <div class="cpanel" id="cpanel" style="display:none"><div class="cpl"><span class="en-text">Selected Country Assessment</span><span class="bn-text">নির্বাচিত দেশের মূল্যায়ন</span></div><div class="cr" id="cr"></div></div>
+        <div class="mftr"><p><span class="en-text">Calculated using Odeh 2006 criterion · Jean Meeus astronomical algorithms · Drawn on HTML5 Canvas · All calculations run locally in your browser</span><span class="bn-text">ওডেহ ২০০৬ মানদণ্ড · জিন মিউস অ্যালগরিদম · HTML5 Canvas-এ আঁকা · সব গণনা আপনার ব্রাউজারে</span></p></div>
+      </div>
+    </div>
+  </div>
+  <footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+<!-- ══════════════ PAGE: BASICS ══════════════ -->
+<div class="pg" id="pg-basics">
+<div class="sec-wrap">
+  <div class="sec-label">01 — <span class="en-text">Foundations</span><span class="bn-text">মূলনীতি</span></div>
+  <h2><span class="en-text">The Key <em>Distinction</em></span><span class="bn-text">মূল <em>পার্থক্য</em></span></h2>
+  <p class="en-block">Before any discussion of moon sighting can proceed, one fundamental distinction must be understood by everyone — from scholars to government bodies to ordinary observers:</p>
+  <p class="bn-block">চাঁদ দেখার যেকোনো আলোচনার আগে একটি মৌলিক পার্থক্য বুঝতে হবে — আলেমদের থেকে সরকারি সংস্থা পর্যন্ত সবার জন্য:</p>
+  <div class="cg2">
+    <div class="card"><span class="ci">🌑</span><h4><span class="en-text">Moon Conjunction (Ijtimāʿ)</span><span class="bn-text">চন্দ্র-সংযোগ (ইজতিমা)</span></h4><p><span class="en-text">The astronomical moment when the Moon lies directly between Earth and Sun. An <strong>invisible event</strong> — the Moon cannot be seen at this point. Calculable to the second with precision.</span><span class="bn-text">সেই মুহূর্ত যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে। এটি একটি <strong>অদৃশ্য ঘটনা</strong>। সেকেন্ড পর্যন্ত সঠিকভাবে গণনাযোগ্য।</span></p></div>
+    <div class="card"><span class="ci">🌙</span><h4><span class="en-text">Hilal — Crescent Visibility</span><span class="bn-text">হিলাল — অর্ধচন্দ্র দৃশ্যমানতা</span></h4><p><span class="en-text">The <strong>first visible sighting</strong> of the thin crescent moon after conjunction. This is what Islamic law (fiqh) traditionally requires for starting a new lunar month.</span><span class="bn-text">সংযোগের পর পাতলা অর্ধচন্দ্রের <strong>প্রথম দৃশ্যমান দর্শন</strong>। ইসলামী আইনে এটি নতুন মাস শুরুর জন্য প্রয়োজন।</span></p></div>
+    <div class="card"><span class="ci">📅</span><h4><span class="en-text">Start of Lunar Month</span><span class="bn-text">চান্দ্র মাসের শুরু</span></h4><p><span class="en-text">Different institutions define this differently — some use conjunction, some require naked-eye sighting, some use calculations. These differences cause most calendar disputes.</span><span class="bn-text">বিভিন্ন প্রতিষ্ঠান এটি ভিন্নভাবে নির্ধারণ করে — সংযোগ, দর্শন, বা গণনার মাধ্যমে। এই পার্থক্যই বেশিরভাগ বিতর্কের কারণ।</span></p></div>
+  </div>
+  <div class="hadith"><span class="en-text">"Fast when you see it [the crescent], and break fast when you see it; and if it is obscured from you, complete thirty days."</span><span class="bn-text">"তোমরা চাঁদ দেখে রোজা শুরু করো এবং চাঁদ দেখে রোজা ভাঙো। যদি আকাশ মেঘলা থাকে, তাহলে ত্রিশ দিন পূর্ণ করো।"</span><div class="href">— ṢAḤĪḤ AL-BUKHĀRĪ · Hadith 1907 · Abu Hurayra (R.A.)</div></div>
+  <hr class="divider">
+  <h3><span class="en-text">How Different Authorities Decide</span><span class="bn-text">বিভিন্ন কর্তৃপক্ষ কীভাবে সিদ্ধান্ত নেয়</span></h3>
+  <table class="tbl">
+    <thead><tr><th><span class="en-text">Authority</span><span class="bn-text">কর্তৃপক্ষ</span></th><th><span class="en-text">Method</span><span class="bn-text">পদ্ধতি</span></th><th><span class="en-text">Naked-Eye?</span><span class="bn-text">খালি চোখ?</span></th></tr></thead>
+    <tbody>
+      <tr><td>Saudi Arabia</td><td><span class="en-text">Conjunction + moonset after sunset</span><span class="bn-text">সংযোগ + সূর্যাস্তের পরে চন্দ্রাস্ত</span></td><td><span class="badge ba">Partial</span></td></tr>
+      <tr><td>Turkey (Diyanet)</td><td><span class="en-text">Astronomical calculation</span><span class="bn-text">জ্যোতির্বৈজ্ঞানিক গণনা</span></td><td><span class="badge br">Rarely</span></td></tr>
+      <tr><td>ECFR / ISNA</td><td><span class="en-text">Unified global calculation</span><span class="bn-text">বৈশ্বিক গণনা</span></td><td><span class="badge br">No</span></td></tr>
+      <tr><td>Bangladesh</td><td><span class="en-text">Local naked-eye sighting + committee</span><span class="bn-text">স্থানীয় দর্শন + কমিটি</span></td><td><span class="badge bg">Yes</span></td></tr>
+      <tr><td>Morocco</td><td><span class="en-text">Naked-eye (multiple witnesses)</span><span class="bn-text">খালি চোখ (একাধিক সাক্ষী)</span></td><td><span class="badge bg">Yes</span></td></tr>
+    </tbody>
+  </table>
+  <hr class="divider">
+  <h3><span class="en-text">Accept or Reject a Sighting Claim</span><span class="bn-text">দাবি গ্রহণ বা প্রত্যাখ্যান</span></h3>
+  <div class="ar">
+    <div class="arb ac"><h4>✓ <span class="en-text">Accept When</span><span class="bn-text">গ্রহণ করুন যখন</span></h4><ul>
+      <li><span class="en-text">Angular separation ≥ 10.5°</span><span class="bn-text">কৌণিক বিচ্ছেদ ≥ ১০.৫°</span></li>
+      <li><span class="en-text">≥ 15 hours since conjunction</span><span class="bn-text">সংযোগের পর ≥ ১৫ ঘণ্টা</span></li>
+      <li><span class="en-text">Moon sets after sunset</span><span class="bn-text">চাঁদ সূর্যের পরে অস্ত যায়</span></li>
+      <li><span class="en-text">Illumination ≥ 1%</span><span class="bn-text">আলোকসজ্জা ≥ ১%</span></li>
+      <li><span class="en-text">Reports from reliable witnesses</span><span class="bn-text">বিশ্বস্ত সাক্ষীর রিপোর্ট</span></li>
+    </ul></div>
+    <div class="arb rj"><h4>✗ <span class="en-text">Reject When</span><span class="bn-text">প্রত্যাখ্যান করুন যখন</span></h4><ul>
+      <li><span class="en-text">Angular separation &lt; 10°</span><span class="bn-text">কৌণিক বিচ্ছেদ &lt; ১০°</span></li>
+      <li><span class="en-text">&lt; 15 hours since conjunction</span><span class="bn-text">সংযোগের পর &lt; ১৫ ঘণ্টা</span></li>
+      <li><span class="en-text">Moon sets before sunset</span><span class="bn-text">চাঁদ সূর্যের আগে অস্ত যায়</span></li>
+      <li><span class="en-text">Illumination &lt; 0.5%</span><span class="bn-text">আলোকসজ্জা &lt; ০.৫%</span></li>
+      <li><span class="en-text">Sky fully overcast everywhere</span><span class="bn-text">সর্বত্র আকাশ মেঘলা</span></li>
+    </ul></div>
+  </div>
+  <div class="hadith" style="margin-top:2rem;"><span class="en-text">"If the moon is obscured from you, complete thirty days."</span><span class="bn-text">"যদি চাঁদ তোমাদের কাছ থেকে ঢেকে যায়, তাহলে ত্রিশ দিন পূর্ণ করো।"</span><div class="href">— ṢAḤĪḤ AL-BUKHĀRĪ 1907 · Muslim · Tirmidhi · Nasai · Abu Dawud</div></div>
+</div>
+<footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+<!-- ══════════════ PAGE: SCIENCE ══════════════ -->
+<div class="pg" id="pg-science">
+<div class="sec-wrap">
+  <div class="sec-label">02 — <span class="en-text">Astronomical Science</span><span class="bn-text">জ্যোতির্বৈজ্ঞানিক তথ্য</span></div>
+  <h2><span class="en-text">What Astronomy <em>Can & Cannot</em> Tell Us</span><span class="bn-text">জ্যোতির্বিদ্যা কী বলতে <em>পারে ও পারে না</em></span></h2>
+  <div class="cg2">
+    <div class="card"><span class="ci">✅</span><h4><span class="en-text">Astronomy CAN determine:</span><span class="bn-text">নির্ধারণ করতে পারে:</span></h4><p><span class="en-text">Exact moment of conjunction · Angular separation · Moonset &amp; sunset times · Illumination percentage · Moon's age after conjunction · Altitude at sunset</span><span class="bn-text">সংযোগের সঠিক মুহূর্ত · কৌণিক বিচ্ছেদ · চন্দ্রাস্ত সময় · আলোকসজ্জার শতাংশ · চাঁদের বয়স</span></p></div>
+    <div class="card"><span class="ci">⚠️</span><h4><span class="en-text">Astronomy CANNOT guarantee:</span><span class="bn-text">নিশ্চিত করতে পারে না:</span></h4><p><span class="en-text">Whether your sky is cloud-free · Atmospheric dust or haze · Observer's visual acuity · Local weather conditions at observation time</span><span class="bn-text">মেঘমুক্ত আকাশ · বায়ুমণ্ডলীয় ধুলো · পর্যবেক্ষকের দৃষ্টিশক্তি · স্থানীয় আবহাওয়া</span></p></div>
+  </div>
+  <hr class="divider">
+  <h3><span class="en-text">Minimum Criteria for Crescent Visibility (Odeh 2006)</span><span class="bn-text">হিলাল দৃশ্যমানতার ন্যূনতম মানদণ্ড</span></h3>
+  <table class="tbl">
+    <thead><tr><th><span class="en-text">Parameter</span><span class="bn-text">পরামিতি</span></th><th><span class="en-text">Min Value</span><span class="bn-text">ন্যূনতম মান</span></th><th><span class="en-text">Significance</span><span class="bn-text">গুরুত্ব</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en-text">Angular Separation (ARCL)</span><span class="bn-text">কৌণিক বিচ্ছেদ (ARCL)</span></td><td><strong>≥ 10.5°</strong></td><td><span class="en-text">Below this, Sun's glare makes sighting impossible</span><span class="bn-text">এর নিচে সূর্যের আলোর কারণে দর্শন অসম্ভব</span></td></tr>
+      <tr><td><span class="en-text">Time Since Conjunction</span><span class="bn-text">সংযোগের পর সময়</span></td><td><strong>≥ 15 hrs</strong></td><td><span class="en-text">Any claim before 15h is scientifically impossible</span><span class="bn-text">১৫ঘ আগে যেকোনো দাবি বৈজ্ঞানিকভাবে অসম্ভব</span></td></tr>
+      <tr><td><span class="en-text">Moon Altitude at Sunset</span><span class="bn-text">সূর্যাস্তে চাঁদের উচ্চতা</span></td><td><strong>≥ 5°</strong></td><td><span class="en-text">Moon must be above horizon when sky darkens enough</span><span class="bn-text">আকাশ অন্ধকার হলে দিগন্তের উপরে থাকতে হবে</span></td></tr>
+      <tr><td><span class="en-text">Moonset Lag After Sunset</span><span class="bn-text">চন্দ্রাস্তের ব্যবধান</span></td><td><strong>≥ 20 min</strong></td><td><span class="en-text">Observation window before Moon sets</span><span class="bn-text">চাঁদ অস্ত যাওয়ার আগে দেখার সুযোগ</span></td></tr>
+      <tr><td><span class="en-text">Illumination %</span><span class="bn-text">আলোকসজ্জা %</span></td><td><strong>≥ 0.5%</strong></td><td><span class="en-text">Below 0.5% = impossible; 1%+ = likely visible</span><span class="bn-text">০.৫%-এর নিচে অসম্ভব; ১%+ সম্ভবত দৃশ্যমান</span></td></tr>
+    </tbody>
+  </table>
+  <hr class="divider">
+  <h3><span class="en-text">Illumination Guide</span><span class="bn-text">আলোকসজ্জার নির্দেশিকা</span></h3>
+  <div class="vm"><div class="vml"><span>0% — <span class="en-text">Impossible</span><span class="bn-text">অসম্ভব</span></span></div><div class="vt"><div class="vf" style="width:5%;background:var(--red)"></div></div></div>
+  <div class="vm"><div class="vml"><span>0.5% — <span class="en-text">Expert only</span><span class="bn-text">শুধু বিশেষজ্ঞ</span></span></div><div class="vt"><div class="vf" style="width:22%;background:var(--amber)"></div></div></div>
+  <div class="vm"><div class="vml"><span>1.0% — <span class="en-text">Likely visible (clear sky)</span><span class="bn-text">সম্ভাব্য দৃশ্যমান</span></span></div><div class="vt"><div class="vf" style="width:52%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
+  <div class="vm"><div class="vml"><span>1.5%+ — <span class="en-text">Easily visible</span><span class="bn-text">সহজেই দৃশ্যমান</span></span></div><div class="vt"><div class="vf" style="width:82%;background:var(--green)"></div></div></div>
+</div>
+<footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+<!-- ══════════════ PAGE: METHODS ══════════════ -->
+<div class="pg" id="pg-methods">
+<div class="sec-wrap">
+  <div class="sec-label">03 — <span class="en-text">Verification Methods</span><span class="bn-text">যাচাইকরণ পদ্ধতি</span></div>
+  <h2><span class="en-text">Three Practical <em>Methods</em></span><span class="bn-text">তিনটি ব্যবহারিক <em>পদ্ধতি</em></span></h2>
+  <p><span class="en-text">Apply these before accepting or rejecting any crescent sighting report. Use them in sequence for maximum accuracy.</span><span class="bn-text">যেকোনো হিলাল দর্শনের রিপোর্ট গ্রহণ বা প্রত্যাখ্যানের আগে এগুলো প্রয়োগ করুন।</span></p>
+  <div class="method"><div class="ml">A</div><div class="mb"><h4><span class="en-text">Angular Separation Check</span><span class="bn-text">কৌণিক বিচ্ছেদ পরীক্ষা</span></h4><p><span class="en-text">Check if the angular separation (ARCL) between Moon and Sun has reached at least <strong>10.5°</strong> before sunset. If not, no sighting is possible regardless of any report. Use <a href="https://mooncalc.org" target="_blank">mooncalc.org</a> or <a href="https://www.timeanddate.com/astronomy/moon/" target="_blank">timeanddate.com</a> to check this value for your location.</span><span class="bn-text">পরীক্ষা করুন সূর্যাস্তের আগে ARCL কমপক্ষে <strong>১০.৫°</strong> পৌঁছেছে কিনা।</span></p></div></div>
+  <div class="method"><div class="ml">B</div><div class="mb"><h4><span class="en-text">Conjunction Time + Moonset Check</span><span class="bn-text">সংযোগ সময় + চন্দ্রাস্ত পরীক্ষা</span></h4><p><span class="en-text">Verify both: <strong>(1)</strong> At least 15 hours have passed since conjunction at the time of sunset. <strong>(2)</strong> The Moon sets after the Sun (moonset lag ≥ 20 min). Both must be true. If either fails, reject the report.</span><span class="bn-text">উভয় যাচাই করুন: (১) সূর্যাস্তে সংযোগের পর ≥ ১৫ ঘণ্টা এবং (২) চাঁদ সূর্যের পরে অস্ত যায়।</span></p></div></div>
+  <div class="method"><div class="ml">C</div><div class="mb"><h4><span class="en-text">Illumination % — Simplest Check</span><span class="bn-text">আলোকসজ্জা % — সহজতম পরীক্ষা</span></h4><p><span class="en-text">Check illumination on <a href="https://theskylive.com/" target="_blank">theskylive.com</a>: <strong>&lt;0.5%</strong> → Impossible, reject. <strong>0.5–1%</strong> → Only under perfect conditions. <strong>≥1%</strong> → Sighting expected, await confirmation.</span><span class="bn-text"><a href="https://theskylive.com/" target="_blank">theskylive.com</a>-এ পরীক্ষা করুন: &lt;০.৫% → অসম্ভব · ১%+ → প্রত্যাশিত।</span></p></div></div>
+  <hr class="divider">
+  <h3><span class="en-text">The Telescope Question</span><span class="bn-text">দূরবীক্ষণের প্রশ্ন</span></h3>
+  <div class="cg2">
+    <div class="card"><span class="ci">🔭</span><h4><span class="en-text">Problem with Telescopic Sighting</span><span class="bn-text">দূরবীক্ষণ দর্শনের সমস্যা</span></h4><p><span class="en-text">Classical Islamic scholarship requires the crescent to be visible to the <em>naked eye</em> (ru'yat al-hilal bil-'ayn). A moon visible only through optical instruments does not fulfill this criterion according to most scholars.</span><span class="bn-text">ইসলামী আইনে হিলাল <em>খালি চোখে</em> দেখা প্রয়োজন। অপটিক্যাল যন্ত্রে কেবল দৃশ্যমান চাঁদ অধিকাংশ আলেমের মতে এই মানদণ্ড পূরণ করে না।</span></p></div>
+    <div class="card"><span class="ci">💡</span><h4><span class="en-text">Better Alternative</span><span class="bn-text">উত্তম বিকল্প</span></h4><p><span class="en-text">Use astronomical calculations and global sighting networks instead. If the moon is genuinely visible, naked-eye observers worldwide will report it. Expensive telescopes should serve educational purposes.</span><span class="bn-text">জ্যোতির্বৈজ্ঞানিক গণনা ও বৈশ্বিক দর্শন নেটওয়ার্ক ব্যবহার করুন। মূল্যবান দূরবীক্ষণ শিক্ষামূলক উদ্দেশ্যে ব্যবহার করা উচিত।</span></p></div>
+  </div>
+</div>
+<footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+<!-- ══════════════ PAGE: CHECKER ══════════════ -->
+<div class="pg" id="pg-checker">
+<div class="sec-wrap">
+  <div class="sec-label">04 — <span class="en-text">Visibility Checker</span><span class="bn-text">দৃশ্যমানতা পরীক্ষক</span></div>
+  <h2><span class="en-text">Crescent <em>Visibility Checker</em></span><span class="bn-text">হিলাল <em>দৃশ্যমানতা পরীক্ষক</em></span></h2>
+  <p><span class="en-text">Enter the four astronomical values for your location on the night of expected sighting. You can find these values using the sources listed on the Sources page. The checker will instantly tell you whether a sighting is possible.</span><span class="bn-text">প্রত্যাশিত দর্শনের রাতে আপনার অবস্থানের চারটি জ্যোতির্বৈজ্ঞানিক মান লিখুন। Sources পেজে উল্লিখিত উৎস থেকে এই মানগুলো পাবেন।</span></p>
+
+  <h3><span class="en-text">How the Checker Works</span><span class="bn-text">পরীক্ষক কীভাবে কাজ করে</span></h3>
+  <div class="how-grid">
+    <div class="how-card"><div class="how-num">01</div><div class="how-title"><span class="en-text">Angular Separation</span><span class="bn-text">কৌণিক বিচ্ছেদ</span></div><p><span class="en-text">The angle between Moon and Sun centers. Below 10° = glare makes sighting impossible. Above 10.5° = minimum condition met. Get this from <strong>mooncalc.org</strong> or <strong>timeanddate.com</strong>.</span><span class="bn-text">চাঁদ ও সূর্যের কেন্দ্রের মধ্যে কোণ। ১০° এর নিচে = অসম্ভব। ১০.৫°+ = ন্যূনতম শর্ত পূর্ণ।</span></p></div>
+    <div class="how-card"><div class="how-num">02</div><div class="how-title"><span class="en-text">Hours Since Conjunction</span><span class="bn-text">সংযোগের পর ঘণ্টা</span></div><p><span class="en-text">How many hours have passed since the new moon (conjunction). Below 15h = scientifically impossible. 18h+ = good window. Get conjunction time from <strong>timeanddate.com</strong>.</span><span class="bn-text">সংযোগের (নতুন চাঁদ) পর কত ঘণ্টা হয়েছে। ১৫ঘ এর নিচে = অসম্ভব। ১৮ঘ+ = ভালো সুযোগ।</span></p></div>
+    <div class="how-card"><div class="how-num">03</div><div class="how-title"><span class="en-text">Illumination %</span><span class="bn-text">আলোকসজ্জা %</span></div><p><span class="en-text">The percentage of the moon's visible surface lit by sunlight. &lt;0.5% = impossible. 1%+ = likely visible in clear sky. Check at <strong>theskylive.com</strong> for your city.</span><span class="bn-text">চাঁদের দৃশ্যমান পৃষ্ঠের কত শতাংশ সূর্যালোকিত। ০.৫%-এর নিচে = অসম্ভব। ১%+ = সম্ভাব্য দৃশ্যমান।</span></p></div>
+    <div class="how-card"><div class="how-num">04</div><div class="how-title"><span class="en-text">Moonset Lag</span><span class="bn-text">চন্দ্রাস্তের ব্যবধান</span></div><p><span class="en-text">Minutes between sunset and moonset. If negative = moon sets before sun = impossible. 20+ min = observation window available. Get moonset from <strong>timeanddate.com</strong>.</span><span class="bn-text">সূর্যাস্ত ও চন্দ্রাস্তের মধ্যে মিনিটের ব্যবধান। ঋণাত্মক হলে = অসম্ভব। ২০+ মিনিট = দর্শনের সুযোগ।</span></p></div>
+  </div>
+
+  <div class="checker-box">
+    <h3 style="margin-top:0"><span class="en-text">🔍 Enter Your Values</span><span class="bn-text">🔍 আপনার মান লিখুন</span></h3>
+    <div class="cg3">
+      <div>
+        <label><span class="en-text">Angular Separation (°)</span><span class="bn-text">কৌণিক বিচ্ছেদ (°)</span></label>
+        <input type="number" id="v-arcl" placeholder="e.g. 11.5" step="0.1" min="0" max="180">
+      </div>
+      <div>
+        <label><span class="en-text">Hours Since Conjunction</span><span class="bn-text">সংযোগের পর ঘণ্টা</span></label>
+        <input type="number" id="v-hours" placeholder="e.g. 18" step="0.5" min="0" max="72">
+      </div>
+      <div>
+        <label><span class="en-text">Illumination %</span><span class="bn-text">আলোকসজ্জা %</span></label>
+        <input type="number" id="v-illum" placeholder="e.g. 1.2" step="0.1" min="0" max="100">
+      </div>
+      <div>
+        <label><span class="en-text">Moonset Lag (minutes after sunset)</span><span class="bn-text">চন্দ্রাস্তের ব্যবধান (মিনিট)</span></label>
+        <input type="number" id="v-lag" placeholder="e.g. 25" step="1" min="-60" max="120">
+      </div>
+    </div>
+    <button class="btn" onclick="runChecker()">🔍 <span class="en-text">Check Visibility</span><span class="bn-text">দৃশ্যমানতা পরীক্ষা করুন</span></button>
+    <div id="chk-result" class="rb" style="display:none">
+      <div class="rt" id="chk-title"></div>
+      <div id="chk-body"></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3><span class="en-text">Quick Reference — Where to Get Values</span><span class="bn-text">মান কোথায় পাবেন — দ্রুত রেফারেন্স</span></h3>
+  <table class="tbl">
+    <thead><tr><th><span class="en-text">Value</span><span class="bn-text">মান</span></th><th><span class="en-text">Best Source</span><span class="bn-text">সেরা উৎস</span></th><th><span class="en-text">How to Find</span><span class="bn-text">কীভাবে পাবেন</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en-text">Angular Separation</span><span class="bn-text">কৌণিক বিচ্ছেদ</span></td><td><a href="https://mooncalc.org" target="_blank" style="color:var(--gold)">mooncalc.org</a></td><td><span class="en-text">Enter your city → check "Moon-Sun angle" at sunset time</span><span class="bn-text">আপনার শহর লিখুন → সূর্যাস্তের সময় "Moon-Sun angle" দেখুন</span></td></tr>
+      <tr><td><span class="en-text">Hours Since Conjunction</span><span class="bn-text">সংযোগের পর ঘণ্টা</span></td><td><a href="https://www.timeanddate.com/astronomy/moon/" target="_blank" style="color:var(--gold)">timeanddate.com</a></td><td><span class="en-text">Moon page → "New Moon" date and time → calculate hours to your sunset</span><span class="bn-text">Moon পেজ → "New Moon" তারিখ ও সময় → আপনার সূর্যাস্ত পর্যন্ত ঘণ্টা গণনা করুন</span></td></tr>
+      <tr><td><span class="en-text">Illumination %</span><span class="bn-text">আলোকসজ্জা %</span></td><td><a href="https://theskylive.com/" target="_blank" style="color:var(--gold)">theskylive.com</a></td><td><span class="en-text">Select your country → Moon section → "Illumination" at sunset</span><span class="bn-text">দেশ নির্বাচন → Moon বিভাগ → সূর্যাস্তের সময় "Illumination" দেখুন</span></td></tr>
+      <tr><td><span class="en-text">Moonset Lag</span><span class="bn-text">চন্দ্রাস্তের ব্যবধান</span></td><td><a href="https://www.timeanddate.com/astronomy/moon/" target="_blank" style="color:var(--gold)">timeanddate.com</a></td><td><span class="en-text">Moon page for your city → subtract sunset time from moonset time (in minutes)</span><span class="bn-text">আপনার শহরের Moon পেজ → চন্দ্রাস্ত বিয়োগ সূর্যাস্ত = ব্যবধান (মিনিটে)</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+<!-- ══════════════ PAGE: SOURCES ══════════════ -->
+<div class="pg" id="pg-sources">
+<div class="sec-wrap">
+  <div class="sec-label">05 — <span class="en-text">Sources & References</span><span class="bn-text">উৎস ও তথ্যসূত্র</span></div>
+  <h2><span class="en-text">Authoritative <em>Sources</em></span><span class="bn-text">নির্ভরযোগ্য <em>উৎস</em></span></h2>
+  <p><span class="en-text">All sources below are freely accessible. Open them to check real-time moon data for your location and the global crescent visibility situation.</span><span class="bn-text">নিচের সমস্ত উৎস বিনামূল্যে অ্যাক্সেসযোগ্য। আপনার অবস্থানের রিয়েল-টাইম চাঁদের তথ্য পেতে এগুলো ব্যবহার করুন।</span></p>
+
+  <!-- FULL ARTICLE TEXT -->
+  <div style="background:var(--deep);border:1px solid var(--border);border-radius:16px;padding:2.4rem 2.6rem;margin-bottom:3rem;">
+
+    <!-- Toggle button -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0;">
+      <div>
+        <div style="font-family:var(--fm);font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:0.4rem;">
+          <span class="en-text">📖 Full Article</span>
+          <span class="bn-text">📖 সম্পূর্ণ নিবন্ধ</span>
+        </div>
+        <h3 style="margin:0;font-size:1.2rem;color:var(--silver-light);">
+          <span class="en-text">Moon Sighting: Fix the Method, Not the Myth!</span>
+          <span class="bn-text">চাঁদ দেখা: যন্ত্র নয়, বরং তন্ত্র-মন্ত্র ঠিক করুন</span>
+        </h3>
+      </div>
+      <button onclick="toggleArticle()" id="art-toggle-btn"
+        style="font-family:var(--fm);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.7rem 1.4rem;border-radius:8px;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);cursor:pointer;transition:.2s;white-space:nowrap;"
+        onmouseover="this.style.background='rgba(201,168,76,0.1)'"
+        onmouseout="this.style.background='transparent'">
+        <span class="en-text">▼ Show Full Article</span>
+        <span class="bn-text">▼ সম্পূর্ণ নিবন্ধ দেখুন</span>
+      </button>
+    </div>
+
+    <!-- Article body (hidden by default) -->
+    <div id="art-body" style="display:none;margin-top:2rem;border-top:1px solid var(--border);padding-top:2rem;">
+
+      <!-- Language tabs inside article -->
+      <div style="display:flex;gap:0;margin-bottom:2rem;border-bottom:1px solid var(--border);">
+        <button onclick="setArticleLang('en')" id="aln-en"
+          style="font-family:var(--fm);font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.65rem 1.4rem;border:none;background:transparent;color:var(--gold);border-bottom:2px solid var(--gold);cursor:pointer;transition:.2s;">
+          English
+        </button>
+        <button onclick="setArticleLang('bn')" id="aln-bn"
+          style="font-family:var(--fm);font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.65rem 1.4rem;border:none;background:transparent;color:var(--text-dim);border-bottom:2px solid transparent;cursor:pointer;transition:.2s;">
+          বাংলা
+        </button>
+      </div>
+
+      <!-- ENGLISH VERSION -->
+      <div id="art-en" style="line-height:1.85;color:var(--text);">
+
+        <p style="font-size:1.05rem;">At the beginning of any discussion on moon sighting, one thing must be clarified: there is a difference between <strong style="color:var(--silver-light);">visually sighting the new crescent moon (hilal)</strong> and the <strong style="color:var(--silver-light);">actual beginning of the lunar month</strong>.</p>
+
+        <p>Currently, governments and organizations such as Saudi Arabia, Turkey, the European Council for Fatwa, and the Fiqh Council of North America determine the Islamic calendar using lunar position formulas and crescent visibility maps. Based on these, they predefine the dates for fasting and Eid. In this approach, actual naked-eye sighting is not given much importance — instead, the month begins based on automated astronomical calculations. However, the accuracy of these formulas in predicting actual visibility can sometimes be questioned.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📊 Saudi Method (Simplified)</h4>
+        <p>According to the Saudi calculation method: if moon conjunction (alignment of Sun, Earth, Moon) occurs before sunset, and moonset happens after sunset — then the new month begins. However, this does <em>not</em> guarantee visibility of the moon on that same day, even within Saudi Arabia. This often leads to disputes.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🌍 Global Issue</h4>
+        <p>Since the crescent moon is not visible worldwide on the same day, there is a long-standing debate: should Eid be celebrated globally on the same day or not? Without entering that debate, a local solution for Bangladesh can be proposed.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🇧🇩 Practical Situation in Bangladesh</h4>
+        <p>Most scholars in Bangladesh support naked-eye moon sighting, public holidays align well with local religious observance, and therefore the system works relatively smoothly. What is needed is focus on three key areas:</p>
+        <ul style="margin:.8rem 0 1rem 1.4rem;line-height:2;">
+          <li><strong>Use Astronomical Tools</strong> — understand and use modern software to determine moon position and moonset timing.</li>
+          <li><strong>Avoid Wrong Dates</strong> — do not attempt moon sighting on scientifically impossible days. False reports create confusion.</li>
+          <li><strong>Understand the Difference</strong> — properly understand moon conjunction, visibility conditions, and the difference between the lunar month start and visual sighting.</li>
+        </ul>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🔬 Scientific Reality</h4>
+        <p>Modern astronomy can accurately determine moon conjunction, angular separation between Sun and Moon, and moonset timing. However, actual visibility still depends on conditions such as clear sky, no clouds, fog, or pollution.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📐 Visibility Conditions</h4>
+        <p>For the crescent moon to be visible: angular separation should be about <strong>10–10.5°</strong>, at least <strong>15–23 hours</strong> must pass after conjunction, and the Moon must set after sunset. If someone claims to see the moon before 15 hours after conjunction, it is scientifically invalid.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📍 Three Practical Methods for Bangladesh</h4>
+        <ul style="margin:.8rem 0 1rem 1.4rem;line-height:2;">
+          <li><strong>Method A:</strong> Check if angular separation reaches at least ~10.5° before sunset.</li>
+          <li><strong>Method B:</strong> Check that at least 15 hours have passed after conjunction AND the Moon sets after sunset.</li>
+          <li><strong>Method C (Simplest):</strong> Check illumination % — below 0.5% means impossible; 1–1.5% or more means visibility is very likely.</li>
+        </ul>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🚫 When NOT to Accept Claims</h4>
+        <p>Any sighting claim should be rejected if: angular separation is below 10°, less than 15 hours have passed since conjunction, or illumination is extremely low. These are scientific impossibilities.</p>
+
+        <div style="background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.02));border-left:3px solid var(--gold);padding:1.3rem 1.8rem;border-radius:0 10px 10px 0;margin:2rem 0;font-style:italic;color:var(--silver-light);">
+          "If the moon is obscured, complete thirty days."
+          <div style="margin-top:0.6rem;font-style:normal;font-family:var(--fm);font-size:0.65rem;color:var(--gold-dim);letter-spacing:0.07em;">— ṢAḤĪḤ AL-BUKHĀRĪ, Hadith 1907</div>
+        </div>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">⚠️ The Telescope Debate</h4>
+        <p>After controversies (e.g., Eid 2019), Bangladesh considered buying expensive telescopes (~€500,000 each). However, astronomy already provides accurate predictions, and if the moon is not visible to the naked eye, seeing it through a telescope does not fulfill traditional hilal criteria. Such spending is therefore unnecessary.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">💡 Better Alternative</h4>
+        <p>Instead of buying expensive equipment: use astronomical data, use global sighting reports, and optimise decision-making. Existing telescopes should be used for educational purposes in schools and universities.</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🧾 Final Thought</h4>
+        <p>Modern astronomy has advanced enough to predict moon visibility accurately and eliminate confusion. By combining scientific data with religious principles, moon sighting controversies can finally be resolved.</p>
+
+        <div style="margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border);font-size:0.88rem;color:var(--text-dim);">
+          <strong style="color:var(--silver-light);">Faiz Ahmed Taiyeb</strong> &nbsp;·&nbsp; Author, <em>Fourth Industrial Revolution and Bangladesh</em> · Engineer, EEE, BUET · Software Architect, Vodafone Netherlands<br>
+          <span style="font-family:var(--fm);font-size:0.62rem;color:var(--gold-dim);">Published: 24 April 2020 · Desh Rupantor · <a href="https://www.deshrupantor.com/213430/%E0%A6%9A%E0%A6%BE%E0%A6%81%E0%A6%A6-%E0%A6%A6%E0%A7%87%E0%A6%96%E0%A6%BE-%E0%A6%AF%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%A8%E0%A7%9F-%E0%A6%AC%E0%A6%B0%E0%A6%82-%E0%A6%A4%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%AE%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%A0%E0%A6%BF%E0%A6%95-%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8" target="_blank" style="color:var(--gold);">Original Article ↗</a></span>
+        </div>
+      </div>
+
+      <!-- BENGALI VERSION -->
+      <div id="art-bn" style="display:none;line-height:1.9;color:var(--text);font-family:var(--fb);font-size:1rem;">
+
+        <p>চাঁদ দেখার যেকোনো আলোচনার শুরুতে একটি বিষয় স্পষ্ট করা দরকার: <strong style="color:var(--silver-light);">নতুন অর্ধচন্দ্র (হিলাল) খালি চোখে দেখা</strong> এবং <strong style="color:var(--silver-light);">চান্দ্র মাসের প্রকৃত শুরু</strong> — এই দুটি বিষয়ের মধ্যে পার্থক্য আছে।</p>
+
+        <p>বর্তমানে সৌদি আরব, তুরস্ক, ইউরোপিয়ান কাউন্সিল ফর ফাতওয়া এবং উত্তর আমেরিকার ফিকহ কাউন্সিলের মতো সরকার ও সংস্থাগুলো চন্দ্র অবস্থানের সূত্র এবং অর্ধচন্দ্র দৃশ্যমানতার মানচিত্র ব্যবহার করে ইসলামী ক্যালেন্ডার নির্ধারণ করে। এর ভিত্তিতে তারা রোজা ও ঈদের তারিখ আগে থেকেই নির্ধারণ করে ফেলে। এই পদ্ধতিতে খালি চোখে দেখার বিষয়টিকে তেমন গুরুত্ব দেওয়া হয় না — বরং স্বয়ংক্রিয় জ্যোতির্বৈজ্ঞানিক গণনার ভিত্তিতে মাস শুরু হয়। তবে এই সূত্রগুলো প্রকৃত দৃশ্যমানতা পূর্বাভাসে কতটা সঠিক, তা নিয়ে মাঝে মাঝে প্রশ্ন ওঠে।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📊 সৌদি পদ্ধতি (সংক্ষেপে)</h4>
+        <p>সৌদি গণনা পদ্ধতি অনুযায়ী: সূর্যাস্তের আগে চন্দ্র-সংযোগ হলে এবং চন্দ্রাস্ত সূর্যাস্তের পরে হলে — নতুন মাস শুরু হয়। তবে এটি সেই দিন চাঁদ দৃশ্যমান হওয়ার নিশ্চয়তা দেয় না, এমনকি সৌদি আরবের মধ্যেও নয়। এই কারণে প্রায়ই বিতর্ক দেখা দেয়।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🌍 বৈশ্বিক সমস্যা</h4>
+        <p>যেহেতু অর্ধচন্দ্র একই দিনে সারা বিশ্বে দৃশ্যমান হয় না, তাই দীর্ঘদিন ধরে একটি বিতর্ক চলছে: ঈদ কি সারা বিশ্বে একই দিনে পালন করা উচিত? সেই বিতর্কে না গিয়ে বাংলাদেশের জন্য একটি স্থানীয় সমাধান প্রস্তাব করা যায়।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🇧🇩 বাংলাদেশের বাস্তব পরিস্থিতি</h4>
+        <p>বাংলাদেশের অধিকাংশ আলেম খালি চোখে চাঁদ দেখার পক্ষে। সরকারি ছুটি স্থানীয় ধর্মীয় আচার-অনুষ্ঠানের সাথে মোটামুটি সামঞ্জস্যপূর্ণ। তাই ব্যবস্থাটি মোটামুটি সুষ্ঠুভাবে কাজ করে। তিনটি মূল ক্ষেত্রে মনোযোগ দিলেই হয়:</p>
+        <ul style="margin:.8rem 0 1rem 1.4rem;line-height:2.2;">
+          <li><strong>জ্যোতির্বৈজ্ঞানিক টুল ব্যবহার</strong> — চাঁদের অবস্থান ও চন্দ্রাস্তের সময় নির্ধারণে আধুনিক সফটওয়্যার বোঝা ও ব্যবহার করা।</li>
+          <li><strong>ভুল তারিখ এড়ানো</strong> — বৈজ্ঞানিকভাবে অসম্ভব দিনে চাঁদ দেখার চেষ্টা না করা। মিথ্যা রিপোর্ট বিভ্রান্তি তৈরি করে।</li>
+          <li><strong>পার্থক্য বোঝা</strong> — চন্দ্র-সংযোগ, দৃশ্যমানতার শর্ত এবং চান্দ্র মাসের শুরু ও খালি চোখে দেখার পার্থক্য ভালোভাবে বোঝা।</li>
+        </ul>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🔬 বৈজ্ঞানিক বাস্তবতা</h4>
+        <p>আধুনিক জ্যোতির্বিদ্যা সঠিকভাবে নির্ধারণ করতে পারে: চন্দ্র-সংযোগ, সূর্য ও চাঁদের কৌণিক বিচ্ছেদ এবং চন্দ্রাস্তের সময়। তবে প্রকৃত দৃশ্যমানতা এখনও নির্ভর করে পরিষ্কার আকাশ, মেঘ না থাকা, কুয়াশা বা দূষণ না থাকার উপর।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📐 দৃশ্যমানতার শর্তাবলী</h4>
+        <p>অর্ধচন্দ্র দৃশ্যমান হতে হলে: কৌণিক বিচ্ছেদ প্রায় <strong>১০–১০.৫°</strong> হতে হবে, সংযোগের পর কমপক্ষে <strong>১৫–২৩ ঘণ্টা</strong> পার হতে হবে এবং চাঁদ সূর্যাস্তের পরে অস্ত যেতে হবে। কেউ যদি সংযোগের ১৫ ঘণ্টা আগে চাঁদ দেখার দাবি করে, তা বৈজ্ঞানিকভাবে অসম্ভব।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">📍 বাংলাদেশের জন্য তিনটি ব্যবহারিক পদ্ধতি</h4>
+        <ul style="margin:.8rem 0 1rem 1.4rem;line-height:2.2;">
+          <li><strong>পদ্ধতি A:</strong> সূর্যাস্তের আগে কৌণিক বিচ্ছেদ কমপক্ষে ~১০.৫° পৌঁছেছে কিনা পরীক্ষা করুন।</li>
+          <li><strong>পদ্ধতি B:</strong> সংযোগের পর কমপক্ষে ১৫ ঘণ্টা হয়েছে কিনা এবং চাঁদ সূর্যাস্তের পরে অস্ত যাচ্ছে কিনা — দুটোই পরীক্ষা করুন।</li>
+          <li><strong>পদ্ধতি C (সহজতম):</strong> আলোকসজ্জা % পরীক্ষা করুন — ০.৫%-এর নিচে হলে অসম্ভব; ১–১.৫% বা বেশি হলে দৃশ্যমানতা খুব সম্ভব।</li>
+        </ul>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🚫 কখন দাবি প্রত্যাখ্যান করবেন</h4>
+        <p>কৌণিক বিচ্ছেদ ১০°-এর নিচে হলে, সংযোগের পর ১৫ ঘণ্টা পার না হলে, বা আলোকসজ্জা অত্যন্ত কম হলে — যেকোনো দাবি বৈজ্ঞানিকভাবে প্রত্যাখ্যান করতে হবে।</p>
+
+        <div style="background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.02));border-left:3px solid var(--gold);padding:1.3rem 1.8rem;border-radius:0 10px 10px 0;margin:2rem 0;font-style:italic;color:var(--silver-light);font-family:var(--fe);">
+          "চাঁদ যদি মেঘে ঢেকে যায়, তাহলে ত্রিশ দিন পূর্ণ করো।"
+          <div style="margin-top:0.6rem;font-style:normal;font-family:var(--fm);font-size:0.65rem;color:var(--gold-dim);letter-spacing:0.07em;">— ṢAḤĪḥ AL-BUKHĀRī, হাদিস ১৯০৭</div>
+        </div>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">⚠️ দূরবীক্ষণ বিতর্ক</h4>
+        <p>বিভিন্ন বিতর্কের (যেমন ২০১৯ সালের ঈদ) পর বাংলাদেশ ব্যয়বহুল দূরবীক্ষণ (~৫ লক্ষ ইউরো প্রতিটি) কেনার কথা বিবেচনা করেছিল। তবে জ্যোতির্বিদ্যা ইতিমধ্যেই সঠিক পূর্বাভাস দিতে সক্ষম, এবং চাঁদ যদি খালি চোখে দৃশ্যমান না হয়, তাহলে দূরবীক্ষণে দেখা ঐতিহ্যগত হিলাল মানদণ্ড পূরণ করে না। তাই এই ব্যয় অপ্রয়োজনীয়।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">💡 উত্তম বিকল্প</h4>
+        <p>ব্যয়বহুল যন্ত্রপাতি কেনার পরিবর্তে: জ্যোতির্বৈজ্ঞানিক তথ্য ব্যবহার করুন, বৈশ্বিক দর্শনের রিপোর্ট ব্যবহার করুন এবং সিদ্ধান্ত গ্রহণ প্রক্রিয়া উন্নত করুন। বিদ্যমান দূরবীক্ষণগুলো স্কুল ও বিশ্ববিদ্যালয়ে শিক্ষামূলক উদ্দেশ্যে ব্যবহার করা উচিত।</p>
+
+        <h4 style="font-family:var(--fm);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2rem 0 0.8rem;">🧾 পরিশেষে</h4>
+        <p>আধুনিক জ্যোতির্বিদ্যা এখন চাঁদের দৃশ্যমানতা সঠিকভাবে পূর্বাভাস দিতে এবং বিভ্রান্তি দূর করতে সক্ষম। বৈজ্ঞানিক তথ্য ও ধর্মীয় নীতির সমন্বয়ে চাঁদ দেখার বিতর্ক চিরতরে সমাধান করা সম্ভব।</p>
+
+        <div style="margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border);font-size:0.92rem;color:var(--text-dim);">
+          <strong style="color:var(--silver-light);">ফাইজ আহমেদ তাইয়েব</strong> &nbsp;·&nbsp; লেখক, <em>চতুর্থ শিল্প বিপ্লব ও বাংলাদেশ</em> · প্রকৌশলী, EEE, BUET · সফটওয়্যার আর্কিটেক্ট, ভোডাফোন নেদারল্যান্ডস<br>
+          <span style="font-family:var(--fm);font-size:0.62rem;color:var(--gold-dim);">প্রকাশিত: ২৪ এপ্রিল ২০২০ · দেশ রূপান্তর · <a href="https://www.deshrupantor.com/213430/%E0%A6%9A%E0%A6%BE%E0%A6%81%E0%A6%A6-%E0%A6%A6%E0%A7%87%E0%A6%96%E0%A6%BE-%E0%A6%AF%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%A8%E0%A7%9F-%E0%A6%AC%E0%A6%B0%E0%A6%82-%E0%A6%A4%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%AE%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0-%E0%A6%A0%E0%A6%BF%E0%A6%95-%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8" target="_blank" style="color:var(--gold);">মূল নিবন্ধ ↗</a></span>
+        </div>
+      </div>
+
+    </div><!-- end art-body -->
+  </div>
+
+  <div class="sg">
+    <a class="sc2" href="https://theskylive.com/" target="_blank"><span class="sx">↗</span><span class="su">theskylive.com</span><div class="sn">The Sky Live</div><div class="sd"><span class="en-text">Real-time Moon illumination %, altitude, azimuth. Best for Method C (illumination check). Select your country for instant local data.</span><span class="bn-text">রিয়েল-টাইম চাঁদের আলোকসজ্জা %, উচ্চতা। পদ্ধতি C-এর জন্য সেরা।</span></div></a>
+    <a class="sc2" href="https://www.timeanddate.com/astronomy/moon/" target="_blank"><span class="sx">↗</span><span class="su">timeanddate.com/astronomy/moon</span><div class="sn">Time and Date</div><div class="sd"><span class="en-text">Comprehensive moon data for any city: phase, illumination, moonrise/moonset, conjunction times. Most user-friendly tool.</span><span class="bn-text">যেকোনো শহরের জন্য বিস্তারিত চাঁদের তথ্য: ফেজ, আলোকসজ্জা, সংযোগ সময়।</span></div></a>
+    <a class="sc2" href="https://www.moonsighting.com/visibility.html" target="_blank"><span class="sx">↗</span><span class="su">moonsighting.com</span><div class="sn">Moonsighting.com</div><div class="sd"><span class="en-text">Khalid Shaukat's visibility predictions and actual worldwide sighting reports. Excellent for cross-referencing reported sightings.</span><span class="bn-text">খালিদ শওকতের দৃশ্যমানতার পূর্বাভাস ও বিশ্বব্যাপী দর্শনের রিপোর্ট।</span></div></a>
+    <a class="sc2" href="https://webspace.science.uu.nl/~gent0113/islam/islam_lunvis_current_year.htm" target="_blank"><span class="sx">↗</span><span class="su">Utrecht University (Dr. Van Gent)</span><div class="sn">Utrecht University</div><div class="sd"><span class="en-text">Academic lunar visibility tables, detailed Danjon limit explanation, and historical Islamic calendar research. Scholarly reference.</span><span class="bn-text">একাডেমিক চন্দ্র দৃশ্যমানতা টেবিল ও ইসলামী ক্যালেন্ডার গবেষণা।</span></div></a>
+    <a class="sc2" href="https://www.al-habib.info/islamic-calendar/hilalmap-crescent-moon-visibility-map.htm" target="_blank"><span class="sx">↗</span><span class="su">al-habib.info</span><div class="sn">Al-Habib Hilal Map</div><div class="sd"><span class="en-text">Interactive global crescent visibility maps using Odeh 2006 criterion. The reference used for calibrating the map on this website.</span><span class="bn-text">ওডেহ ২০০৬ মানদণ্ড ব্যবহার করে ইন্টারেক্টিভ বৈশ্বিক হিলাল মানচিত্র।</span></div></a>
+    <a class="sc2" href="https://mooncalc.org" target="_blank"><span class="sx">↗</span><span class="su">mooncalc.org</span><div class="sn">MoonCalc.org</div><div class="sd"><span class="en-text">Map-based moon calculator: position, angle, quality data for any location on Earth. Best for angular separation (Method A).</span><span class="bn-text">মানচিত্র-ভিত্তিক চাঁদের ক্যালকুলেটর। যেকোনো স্থানের জন্য কৌণিক বিচ্ছেদ পেতে সেরা।</span></div></a>
+  </div>
+  
+  <hr class="divider">
+  <h3><span class="en-text">Scholarly References</span><span class="bn-text">পণ্ডিতমূলক তথ্যসূত্র</span></h3>
+  <table class="tbl">
+    <thead><tr><th><span class="en-text">Reference</span><span class="bn-text">তথ্যসূত্র</span></th><th><span class="en-text">Relevance</span><span class="bn-text">প্রাসঙ্গিকতা</span></th></tr></thead>
+    <tbody>
+      <tr><td><strong>Odeh, M.S.H.</strong> — New Criterion for Lunar Crescent Visibility (2004)</td><td><span class="en-text">Basis for the q-value calculation and zone mapping used in this website's map</span><span class="bn-text">এই ওয়েবসাইটের মানচিত্রে ব্যবহৃত q-মান গণনার ভিত্তি</span></td></tr>
+      <tr><td><strong>Yallop, B.D.</strong> — Method for Predicting First Sighting (1997)</td><td><span class="en-text">The "q-value" method; used by HM Nautical Almanac Office</span><span class="bn-text">"q-মান" পদ্ধতি; HM নটিক্যাল অ্যালমানাক অফিস ব্যবহার করে</span></td></tr>
+      <tr><td><strong>Jean Meeus</strong> — Astronomical Algorithms (1991)</td><td><span class="en-text">Core formula for new moon JD and moon/sun position calculations used in the map engine</span><span class="bn-text">মানচিত্র ইঞ্জিনে ব্যবহৃত নতুন চাঁদের JD ও চাঁদের অবস্থান গণনার মূল সূত্র</span></td></tr>
+      <tr><td><strong>Ṣaḥīḥ al-Bukhārī, Hadith 1907</strong></td><td><span class="en-text">Primary Islamic textual basis for the hilal sighting requirement and 30-day fallback</span><span class="bn-text">হিলাল দর্শনের প্রাথমিক ইসলামী পাঠ্য ভিত্তি</span></td></tr>
+      <tr><td><strong>Schaefer, B.E.</strong> — Astronomical Limits for Naked-Eye (1991)</td><td><span class="en-text">Foundational research on atmospheric and physiological limits of crescent visibility</span><span class="bn-text">হিলাল দৃশ্যমানতার বায়ুমণ্ডলীয় ও শারীরবৃত্তীয় সীমা নিয়ে মৌলিক গবেষণা</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<footer><span class="ms">☽</span><div class="far">بارك الله فيك</div><div class="fdu">Barakallāhu fīk — May Allah bless you</div><p style="font-size:1.08rem;color:var(--silver-light);margin-bottom:0.5rem;"><span style="font-style:italic;color:var(--text-dim);font-size:0.95rem;"></span></p><hr><p class="fcp">Copyright © 26 &nbsp;·&nbsp; <strong>Mydul</strong> &nbsp;·&nbsp; All Rights Reserved<br><span style="opacity:0.55;font-size:0.6rem;">Moon Sighting Reference — A Simple Hilal Guide · Desined and Developed by Mydul Islam Rashed</span></p></footer>
+
+</div>
+
+</div><!-- .page -->
+<script>
+// ══ STARS ══════════════════════════════════
+(function(){
+  const c=document.getElementById('sc'),ctx=c.getContext('2d');let s=[];
+  function rz(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){s=[];for(let i=0;i<290;i++)s.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+0.2,a:Math.random(),sp:Math.random()*.003+.001,ph:Math.random()*Math.PI*2});}
+  function draw(t){ctx.clearRect(0,0,c.width,c.height);for(const p of s){const al=(Math.sin(t*p.sp+p.ph)+1)/2*.65+.1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(180,200,255,${al*p.a})`;ctx.fill();}requestAnimationFrame(draw);}
+  rz();init();window.addEventListener('resize',()=>{rz();init();},{passive:true});requestAnimationFrame(draw);
+})();
+
+// ══ LANG ══════════════════════════════════
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.getElementById('btnEn').classList.toggle('active',l==='en');
+  document.getElementById('btnBn').classList.toggle('active',l==='bn');
+  try{localStorage.setItem('hilal-lang',l);}catch(e){}
+}
+(function(){try{const s=localStorage.getItem('hilal-lang');if(s&&s!=='en')setLang(s);}catch(e){}})();
+
+// ══ SPA ROUTING ═══════════════════════════
+const PAGES=['home','basics','science','methods','checker','sources'];
+function showPage(id){
+  // Hide all
+  PAGES.forEach(p=>{
+    const el=document.getElementById('pg-'+p);
+    if(el){el.classList.remove('visible');}
+    const nl=document.getElementById('nl-'+p);
+    if(nl){nl.classList.remove('active');}
+  });
+  // Show target
+  const target=document.getElementById('pg-'+id);
+  if(target){target.classList.add('visible');}
+  const nl=document.getElementById('nl-'+id);
+  if(nl){nl.classList.add('active');}
+  // Sync mobile menu highlight
+  document.querySelectorAll('.mm-link').forEach(l=>l.classList.remove('active'));
+  const mm=document.getElementById('mm-'+id);
+  if(mm){mm.classList.add('active');}
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Resize canvas when home page shown
+  if(id==='home'){
+    setTimeout(()=>{
+      const cv=document.getElementById('hc');
+      if(cv){const cw=cv.parentElement.clientWidth||1200;cv.width=cw;cv.height=Math.round(cw*0.48);}
+    },50);
+  }
+}
+
+// ══ ASTRONOMY ENGINE ══════════════════════
+const D2R=Math.PI/180;
+
+function hijriToK(hY,hM){return(hY-1)*12+(hM-1)-17037;}
+
+function newMoonJD(hY,hM){
+  const k=hijriToK(hY,hM),T=k/1236.85;
+  let J=2451550.09766+29.530588861*k+0.00015437*T*T-0.00000015*T*T*T;
+  const M =(2.5534 +29.10535670*k-0.0000014*T*T)*D2R;
+  const Mp=(201.5643+385.81693528*k+0.0107582*T*T+0.00001238*T*T*T)*D2R;
+  const F =(160.7108+390.67050284*k-0.0016118*T*T-0.00000227*T*T*T)*D2R;
+  const Om=(124.7746-1.56375588*k+0.0020672*T*T)*D2R;
+  J+=-0.40720*Math.sin(Mp)+0.17241*Math.sin(M)+0.01608*Math.sin(2*Mp)
+     +0.01039*Math.sin(2*F)+0.00739*Math.sin(Mp-M)-0.00514*Math.sin(Mp+M)
+     +0.00208*Math.sin(2*M)-0.00111*Math.sin(Mp-2*F)-0.00057*Math.sin(Mp+2*F)
+     +0.00056*Math.sin(2*Mp+M)-0.00042*Math.sin(3*Mp)+0.00042*Math.sin(M+2*F)
+     +0.00038*Math.sin(M-2*F)-0.00024*Math.sin(2*Mp-M)-0.00017*Math.sin(Om)
+     -0.00007*Math.sin(Mp+2*M)+0.00004*Math.sin(2*Mp-2*F)+0.00004*Math.sin(3*M)
+     +0.00003*Math.sin(Mp+M-2*F)+0.00003*Math.sin(2*Mp+2*F)
+     -0.00003*Math.sin(Mp+M+2*F)+0.00003*Math.sin(Mp-M+2*F)
+     -0.00002*Math.sin(Mp-M-2*F)-0.00002*Math.sin(3*Mp+M)+0.00002*Math.sin(4*Mp);
+  return J;
+}
+
+function jd2dt(jd){
+  let z=Math.floor(jd+0.5);const f=(jd+0.5)-z;let A=z;
+  if(z>=2299161){const a=Math.floor((z-1867216.25)/36524.25);A=z+1+a-Math.floor(a/4);}
+  const B=A+1524,C=Math.floor((B-122.1)/365.25),D=Math.floor(365.25*C),E=Math.floor((B-D)/30.6001);
+  const dy=B-D-Math.floor(30.6001*E),mo=E<14?E-1:E-13,yr=mo>2?C-4716:C-4715;
+  return{year:yr,month:mo,day:dy,hours:f*24};
+}
+
+function mLon(T){
+  const M=(134.9633964+477198.8675055*T+0.0087414*T*T)*D2R;
+  const F=(93.2720950+483202.0175233*T)*D2R;
+  const D=(297.8501921+445267.1114034*T)*D2R;
+  const Msun=(357.52911+35999.05029*T)*D2R;
+  let L=(218.3164477+481267.88123421*T)%360;
+  L+=6.289*Math.sin(M)-1.274*Math.sin(M-2*D)+0.658*Math.sin(2*D)
+    -0.186*Math.sin(Msun)-0.059*Math.sin(2*M-2*D)
+    -0.057*Math.sin(M-2*D+Msun)+0.053*Math.sin(M+2*D)
+    +0.046*Math.sin(2*D-Msun)+0.041*Math.sin(M-Msun);
+  return((L%360)+360)%360;
+}
+function mLat(T){
+  const M=(134.9633964+477198.8675055*T+0.0087414*T*T)*D2R;
+  const F=(93.2720950+483202.0175233*T)*D2R;
+  const D=(297.8501921+445267.1114034*T)*D2R;
+  return 5.128*Math.sin(F)+0.281*Math.sin(M+F)-0.280*Math.sin(F-M)
+        -0.173*Math.sin(F+2*D-M)-0.055*Math.sin(2*D-F-M);
+}
+function sLon(T){
+  const M=(357.52911+35999.05029*T)*D2R;
+  let L=280.46646+36000.76983*T;
+  L+=(1.914602-0.004817*T)*Math.sin(M)+0.019993*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  return((L%360)+360)%360;
+}
+
+function computeZone(lat,lon,nmJD,daysAfter){
+  const conjDayJD=Math.floor(nmJD+0.5)-0.5;
+  const conjUTCh=(nmJD-conjDayJD)*24;
+  const sunsetUTCh=18.0-lon/15.0;
+  const evalJD=conjDayJD+daysAfter+sunsetUTCh/24.0;
+  const hoursSinceConj=(evalJD-nmJD)*24.0;
+  if(hoursSinceConj<0)return{zone:'X',arcl:0,q:-99};
+  const T=(evalJD-2451545.0)/36525.0;
+  let ml=mLon(T),sl=sLon(T);
+  let arcl=ml-sl;arcl=((arcl%360)+360)%360;if(arcl>180)arcl=360-arcl;
+  const mlat=mLat(T);
+  const ARCV=arcl*Math.cos(mlat*D2R);
+  const W=0.27245*Math.sin(arcl*D2R);
+  const V=11.8371-6.3226*W+0.7319*W*W-0.1018*W*W*W;
+  const q=ARCV-V;
+  if(arcl<1.0)return{zone:'X',arcl,q};
+  if(q>=0.216)return{zone:'A',arcl,q};
+  if(q>=-0.014)return{zone:'B',arcl,q};
+  if(q>=-0.160)return{zone:'C',arcl,q};
+  if(arcl>=5.0)return{zone:'C',arcl,q};
+  if(arcl>=1.0)return{zone:'D',arcl,q};
+  return{zone:'X',arcl,q};
+}
+
+function zRGBA(z,a){
+  if(z==='A')return[25,165,40,a];
+  if(z==='B')return[150,215,45,a];
+  if(z==='C')return[235,195,0,a];
+  if(z==='D')return[210,130,20,a];
+  return[50,55,75,a];
+}
+
+// World outlines
+const WO_FALLBACK=[
+  {n:'NAm',p:[[-168,72],[-156,68],[-149,64],[-142,60],[-134,57],[-130,55],[-126,50],[-124,49],[-124,45],[-124,42],[-122,38],[-118,34],[-117,32],[-111,30],[-105,21],[-99,20],[-90,18],[-88,16],[-83,10],[-80,8],[-83,10],[-88,16],[-90,18],[-99,20],[-105,21],[-111,30],[-117,32],[-118,34],[-122,38],[-124,42],[-124,49],[-125,49],[-110,49],[-97,49],[-84,46],[-79,44],[-75,45],[-70,43],[-67,47],[-65,44],[-66,44],[-70,43],[-72,41],[-74,40],[-76,35],[-80,32],[-80,25],[-82,24],[-84,30],[-88,30],[-90,29],[-97,26],[-99,22],[-105,21]]},
+  {n:'CAR',p:[[-62,82],[-44,83],[-26,83],[-20,83],[-18,77],[-22,72],[-30,68],[-44,60],[-52,62],[-58,68],[-52,74],[-50,78],[-52,83],[-62,82]]},
+  {n:'GRL',p:[[-52,83],[-36,83],[-20,83],[-18,80],[-18,77],[-22,72],[-30,68],[-44,60],[-50,62],[-56,64],[-58,68],[-54,72],[-50,76],[-50,80],[-52,83]]},
+  {n:'SAm',p:[[-80,9],[-77,7],[-76,2],[-72,-2],[-70,-4],[-66,-1],[-58,-2],[-52,-4],[-48,0],[-44,-2],[-38,-6],[-35,-10],[-36,-14],[-38,-16],[-40,-20],[-43,-23],[-48,-28],[-52,-33],[-54,-36],[-58,-40],[-62,-43],[-66,-48],[-68,-55],[-66,-55],[-62,-52],[-58,-50],[-52,-44],[-50,-28],[-48,-24],[-44,-23],[-40,-20],[-38,-16],[-35,-10],[-36,-8],[-44,-2],[-52,-4],[-58,-2],[-66,-1],[-70,-4],[-72,-2],[-76,2],[-77,7],[-80,9]]},
+  {n:'EUw',p:[[-10,36],[-6,36],[-2,36],[2,36],[6,36],[6,44],[10,44],[14,40],[16,38],[18,38],[22,38],[24,36],[26,38],[28,42],[30,42],[32,46],[30,48],[24,48],[20,46],[18,46],[14,46],[10,48],[6,50],[2,52],[0,51],[-2,52],[-4,54],[-4,56],[-5,58],[-2,58],[0,60],[2,62],[6,58],[8,56],[10,56],[14,56],[10,54],[8,56],[6,58],[2,62],[0,60],[-2,58],[-5,58],[-4,56],[-4,54],[-2,52],[0,51],[2,52],[6,50],[10,46],[14,42],[14,40],[16,38],[14,36],[10,38],[8,38],[6,36],[-2,36],[-6,36],[-10,36]]},
+  {n:'SCN',p:[[4,58],[6,58],[8,56],[10,56],[14,56],[18,56],[20,58],[20,60],[24,60],[24,62],[26,66],[28,70],[30,70],[26,68],[26,66],[24,64],[22,62],[20,64],[18,64],[16,66],[14,66],[12,64],[10,62],[10,58],[8,56],[6,58],[4,58]]},
+  {n:'GBR',p:[[-6,50],[-4,50],[-2,50],[0,50],[2,52],[0,52],[-2,52],[-2,54],[-4,56],[-5,58],[-4,58],[-2,56],[-2,54],[0,52],[-2,50],[-4,50],[-6,50]]},
+  {n:'IRL',p:[[-6,52],[-8,52],[-10,52],[-10,54],[-8,56],[-6,54],[-6,52]]},
+  {n:'ISL',p:[[-14,64],[-6,64],[-4,64],[-20,64],[-24,64],[-22,62],[-18,63],[-14,64]]},
+  {n:'AFR',p:[[-6,36],[0,36],[6,36],[10,37],[12,34],[16,30],[22,30],[30,28],[36,22],[38,20],[40,16],[42,14],[44,12],[44,8],[46,2],[44,0],[42,-2],[38,-4],[36,-8],[33,-16],[32,-20],[32,-24],[28,-30],[26,-34],[18,-34],[12,-18],[8,-4],[4,2],[0,4],[-4,8],[-4,10],[-6,12],[-4,14],[-2,16],[0,22],[0,30],[-2,32],[-4,34],[-6,36]]},
+  {n:'MDG',p:[[44,-12],[46,-14],[50,-16],[50,-24],[46,-26],[44,-22],[44,-16],[44,-12]]},
+  {n:'MDE',p:[[26,38],[28,42],[32,42],[36,40],[40,38],[44,42],[46,40],[48,36],[50,30],[52,24],[56,24],[58,22],[60,22],[58,18],[52,14],[46,10],[44,8],[44,12],[42,14],[40,16],[38,20],[36,24],[36,28],[34,30],[30,30],[28,32],[28,36],[32,36],[34,34],[36,36],[40,36],[44,40],[44,42],[46,40]]},
+  {n:'TRK',p:[[26,38],[28,40],[30,42],[34,42],[38,38],[42,38],[46,40],[44,38],[40,38],[38,36],[34,36],[32,36],[30,38],[26,38]]},
+  {n:'IRN',p:[[44,40],[46,40],[50,36],[56,36],[60,34],[64,36],[68,36],[72,36],[74,36],[72,36],[70,30],[68,24],[66,24],[62,24],[60,22],[60,24],[56,26],[52,22],[52,24],[48,28],[44,30],[42,36],[44,38],[44,40]]},
+  {n:'IND',p:[[66,24],[70,24],[72,22],[76,18],[78,14],[80,12],[82,8],[80,8],[76,10],[72,18],[68,24],[66,24]]},
+  {n:'PAK',p:[[60,22],[64,24],[68,24],[72,36],[66,36],[60,34],[58,28],[60,24],[60,22]]},
+  {n:'BGD',p:[[88,26],[90,26],[92,24],[96,22],[94,20],[92,22],[88,24],[88,26]]},
+  {n:'SEA',p:[[98,20],[100,20],[102,22],[106,20],[108,18],[108,20],[106,22],[100,16],[100,8],[98,4],[96,4],[98,2],[104,4],[106,2],[110,2],[114,4],[118,4],[120,8],[118,14],[116,18],[110,20],[108,18],[100,20],[98,20]]},
+  {n:'MYS',p:[[100,6],[102,6],[104,4],[106,4],[104,2],[102,2],[100,2],[100,6]]},
+  {n:'CHN',p:[[74,36],[80,34],[86,28],[92,28],[98,26],[102,22],[108,22],[114,22],[120,22],[122,24],[124,28],[122,32],[124,34],[128,38],[130,40],[128,36],[124,34],[122,30],[124,26],[120,22],[114,22],[108,22],[102,22],[98,26],[92,28],[86,28],[80,34],[74,36]]},
+  {n:'CH2',p:[[80,44],[86,44],[92,46],[98,44],[104,46],[108,48],[114,50],[120,50],[126,50],[130,54],[136,50],[140,46],[140,44],[138,40],[134,36],[128,38],[124,34],[120,30],[114,24],[108,24],[102,24],[98,28],[92,36],[86,28],[80,38],[80,44]]},
+  {n:'JPN',p:[[130,32],[132,34],[136,36],[138,36],[140,38],[140,40],[142,42],[144,44],[140,44],[138,42],[136,36],[132,34],[130,32]]},
+  {n:'KOR',p:[[126,38],[128,38],[130,38],[130,36],[126,36],[126,38]]},
+  {n:'IDN',p:[[96,4],[100,2],[106,2],[108,-2],[110,-6],[112,-8],[116,-8],[120,-8],[122,-6],[118,-4],[114,-8],[110,-8],[108,-4],[108,0],[104,2],[96,4]]},
+  {n:'BRN',p:[[108,2],[112,4],[116,4],[116,2],[112,2],[108,2]]},
+  {n:'PHL',p:[[118,20],[120,18],[122,18],[124,14],[122,10],[120,10],[116,16],[116,18],[118,20]]},
+  {n:'LKA',p:[[80,10],[82,10],[82,8],[80,8],[80,10]]},
+  {n:'AUS',p:[[114,-22],[120,-18],[126,-14],[130,-14],[134,-12],[138,-14],[140,-18],[144,-18],[148,-20],[152,-24],[154,-28],[152,-30],[148,-36],[144,-38],[140,-36],[134,-34],[126,-34],[120,-34],[114,-34],[112,-28],[114,-22]]},
+  {n:'NZL',p:[[172,-34],[176,-38],[178,-40],[176,-42],[172,-46],[168,-46],[170,-44],[172,-38],[172,-34]]},
+  {n:'CAM',p:[[-90,18],[-86,14],[-84,12],[-80,8],[-80,9],[-84,12],[-86,14],[-90,18],[-94,18],[-97,20],[-94,18],[-90,18]]},
+  {n:'CUB',p:[[-74,20],[-78,22],[-82,22],[-84,22],[-80,20],[-76,20],[-74,20]]},
+];
+let WO_LOADED=false, WO_DATA=[];
+
+async function loadCountries(){
+  if(WO_LOADED)return;
+  try{
+    const r=await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+    const topo=await r.json();
+    const arcs=topo.arcs;
+    function decodeArc(i){
+      const rev=i<0; const arc=arcs[rev?~i:i];
+      let x=0,y=0; const pts=[];
+      for(const [dx,dy] of arc){
+        x+=dx; y+=dy;
+        pts.push([
+          x*topo.transform.scale[0]+topo.transform.translate[0],
+          y*topo.transform.scale[1]+topo.transform.translate[1]
+        ]);
+      }
+      return rev?pts.reverse():pts;
+    }
+    function decodeGeom(g){
+      const out=[];
+      if(g.type==='Polygon') out.push(g.arcs.map(r=>r.flatMap(decodeArc)));
+      else if(g.type==='MultiPolygon') for(const p of g.arcs) out.push(p.map(r=>r.flatMap(decodeArc)));
+      return out;
+    }
+    WO_DATA=topo.objects.countries.geometries.flatMap(decodeGeom);
+    WO_LOADED=true;
+  }catch(e){
+    console.warn('Map load failed, using fallback');
+    WO_DATA=null; WO_LOADED=true;
+  }
+}
+
+const MN={1:'Muharram',2:'Safar',3:'Rabi al-Awwal',4:'Rabi al-Thani',5:'Jumada al-Awwal',6:'Jumada al-Thani',7:'Rajab',8:"Sha'ban",9:'Ramadan',10:'Shawwal',11:"Dhu al-Qa'da",12:"Dhu al-Hijja"};
+const MA={1:'محرّم',2:'صفر',3:'ربيع الأوّل',4:'ربيع الثاني',5:'جمادى الأولى',6:'جمادى الثانية',7:'رجب',8:'شعبان',9:'رمضان',10:'شوّال',11:'ذو القعدة',12:'ذو الحجّة'};
+const DL={0:'Day of Conjunction',1:'Day After Conjunction (+1)',2:'Two Days After (+2)'};
+
+function generateMap(){
+  const month=parseInt(document.getElementById('mapMonth').value);
+  const year=parseInt(document.getElementById('mapYear').value);
+  const day=parseInt(document.getElementById('mapDay').value);
+  const cSel=document.getElementById('mapCountry');
+  const cOpt=cSel.options[cSel.selectedIndex];
+  const cn=cOpt.value||'';
+  const clat=parseFloat(cOpt.dataset&&cOpt.dataset.lat)||0;
+  const clon=parseFloat(cOpt.dataset&&cOpt.dataset.lon)||0;
+  const out=document.getElementById('mapOut');
+  out.classList.add('vis');
+  setTimeout(()=>out.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  document.getElementById('mapTtl').textContent=`${MN[month]} ${MA[month]} ${year} AH — Crescent Visibility`;
+  document.getElementById('mapSub').textContent=`${DL[day]} · Criterion: Odeh 2006`;
+  document.getElementById('msp').classList.remove('h');
+  loadCountries().then(()=>setTimeout(()=>drawMap(month,year,day,cn,clat,clon),60));
+}
+
+function drawMap(month,year,day,cn,clat,clon){
+  const canvas=document.getElementById('hc');
+  const CW=canvas.parentElement.clientWidth||1200;
+  const CH=Math.round(CW*0.5);
+  canvas.width=CW; canvas.height=CH;
+  const ctx=canvas.getContext('2d');
+  const nmJD=newMoonJD(year,month);
+  const nmd=jd2dt(nmJD);
+
+  // Coordinate converter
+  function px(lo,la){return[((lo+180)/360)*CW, ((90-la)/180)*CH];}
+
+  // ── 1. Deep ocean background ──
+  const oceanGrad=ctx.createLinearGradient(0,0,0,CH);
+  oceanGrad.addColorStop(0,'#071828');
+  oceanGrad.addColorStop(1,'#0d2038');
+  ctx.fillStyle=oceanGrad;
+  ctx.fillRect(0,0,CW,CH);
+
+  // ── 2. Compute zone grid (2° resolution) ──
+  const STEP=2;
+  const COLS=Math.ceil(360/STEP)+2, ROWS=Math.ceil(180/STEP)+2;
+  const grid=new Array(ROWS*COLS);
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    const lat=90-r*STEP, lon=-180+c*STEP;
+    grid[r*COLS+c]=computeZone(lat,lon,nmJD,day);
+  }
+
+  // ── 3. Smooth pixel-level zone rendering ──
+  const img=ctx.createImageData(CW,CH);
+  const data=img.data;
+  for(let py=0;py<CH;py++){
+    const lat=90-(py/CH)*180;
+    const gr=(90-lat)/STEP;
+    const r0=Math.max(0,Math.floor(gr)), r1=Math.min(r0+1,ROWS-1), tf=gr-r0;
+    for(let px2=0;px2<CW;px2++){
+      const lon=-180+(px2/CW)*360;
+      const gc=(lon+180)/STEP;
+      const c0=Math.max(0,Math.floor(gc)), c1=Math.min(c0+1,COLS-1), sf=gc-c0;
+      // Bilinear interpolation
+      const z00=grid[r0*COLS+c0], z01=grid[r0*COLS+c1];
+      const z10=grid[r1*COLS+c0], z11=grid[r1*COLS+c1];
+      const col00=zRGBA(z00.zone,255), col01=zRGBA(z01.zone,255);
+      const col10=zRGBA(z10.zone,255), col11=zRGBA(z11.zone,255);
+      const idx=(py*CW+px2)*4;
+      for(let ch=0;ch<3;ch++){
+        data[idx+ch]=Math.round(
+          (col00[ch]*(1-sf)+col01[ch]*sf)*(1-tf)+
+          (col10[ch]*(1-sf)+col11[ch]*sf)*tf
+        );
+      }
+      data[idx+3]=255;
+    }
+  }
+  ctx.putImageData(img,0,0);
+
+  // ── 4. Land fill — just a subtle dark tint so zone colors dominate ──
+  ctx.save();
+  ctx.globalAlpha = 0.20;  // very low — just enough to show land shape
+  ctx.fillStyle = '#050d18';
+  if(WO_DATA && WO_DATA.length){
+    for(const rings of WO_DATA) for(const ring of rings){
+      ctx.beginPath(); let f=true;
+      for(const[lo,la]of ring){const[x,y]=px(lo,la);f?(ctx.moveTo(x,y),f=false):ctx.lineTo(x,y);}
+      ctx.closePath(); ctx.fill();
+    }
+  }else{
+    for(const r of WO_FALLBACK){
+      ctx.beginPath(); let f=true;
+      for(const[lo,la]of r.p){const[x,y]=px(lo,la);f?(ctx.moveTo(x,y),f=false):ctx.lineTo(x,y);}
+      ctx.closePath(); ctx.fill();
+    }
+  }
+  ctx.globalAlpha=1; ctx.restore();
+
+  // ── 5. Borders — bright white so countries are clearly visible ──
+  ctx.strokeStyle='rgba(255,255,255,0.85)';  // bright white
+  ctx.lineWidth = CW > 800 ? 0.8 : 0.5;
+  ctx.save();
+  if(WO_DATA && WO_DATA.length){
+    for(const rings of WO_DATA) for(const ring of rings){
+      ctx.beginPath(); let f=true;
+      for(const[lo,la]of ring){const[x,y]=px(lo,la);f?(ctx.moveTo(x,y),f=false):ctx.lineTo(x,y);}
+      ctx.closePath(); ctx.stroke();
+    }
+  }else{
+    for(const r of WO_FALLBACK){
+      ctx.beginPath(); let f=true;
+      for(const[lo,la]of r.p){const[x,y]=px(lo,la);f?(ctx.moveTo(x,y),f=false):ctx.lineTo(x,y);}
+      ctx.closePath(); ctx.stroke();
+    }
+  }
+  ctx.restore();
+
+  // ── 6. Latitude/Longitude grid ──
+  ctx.lineWidth=0.35;
+  // Minor grid every 30°
+  ctx.strokeStyle='rgba(100,150,220,0.08)';
+  for(let lo=-180;lo<=180;lo+=30){
+    const [x]=px(lo,0);
+    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,CH); ctx.stroke();
+  }
+  for(let la=-60;la<=60;la+=30){
+    const [,y]=px(0,la);
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(CW,y); ctx.stroke();
+  }
+  // Equator
+  ctx.strokeStyle='rgba(160,200,255,0.25)'; ctx.lineWidth=0.8;
+  const [,eqY]=px(0,0);
+  ctx.beginPath(); ctx.moveTo(0,eqY); ctx.lineTo(CW,eqY); ctx.stroke();
+  // Tropics (Cancer & Capricorn)
+  ctx.strokeStyle='rgba(201,168,76,0.12)'; ctx.lineWidth=0.6;
+  ctx.setLineDash([6,6]);
+  const [,tcY]=px(0,23.5); ctx.beginPath(); ctx.moveTo(0,tcY); ctx.lineTo(CW,tcY); ctx.stroke();
+  const [,tcpY]=px(0,-23.5); ctx.beginPath(); ctx.moveTo(0,tcpY); ctx.lineTo(CW,tcpY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── 7. Country marker with pulsing rings ──
+  if(cn){
+    const [cx,cy]=px(clon,clat);
+    // Glow rings
+    [[28,0.08],[18,0.22],[10,0.55],[5,1]].forEach(([r,a])=>{
+      ctx.strokeStyle=`rgba(255,215,80,${a})`;
+      ctx.lineWidth=r===5?0:1.5;
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+    });
+    // Gold dot
+    const dotGrad=ctx.createRadialGradient(cx-1,cy-1,0,cx,cy,5);
+    dotGrad.addColorStop(0,'#fff8c0');
+    dotGrad.addColorStop(1,'#ffaa00');
+    ctx.fillStyle=dotGrad;
+    ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill();
+    // Label with background pill
+    ctx.font=`bold ${CW>600?13:10}px "Space Mono",monospace`;
+    const tw=ctx.measureText(cn).width;
+    const lx=cx+10, ly=cy-10;
+    // Pill background
+    ctx.fillStyle='rgba(5,10,25,0.78)';
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(lx-4,ly-13,tw+10,18,4)
+                  : ctx.rect(lx-4,ly-13,tw+10,18);
+    ctx.fill();
+    // Text
+    ctx.fillStyle='#ffffff';
+    ctx.fillText(cn,lx+1,ly);
+  }
+
+  // ── 8. Bottom info bar ──
+  const barH=30;
+  const barGrad=ctx.createLinearGradient(0,CH-barH,0,CH);
+  barGrad.addColorStop(0,'rgba(5,8,18,0)');
+  barGrad.addColorStop(0.4,'rgba(5,8,18,0.85)');
+  barGrad.addColorStop(1,'rgba(5,8,18,0.95)');
+  ctx.fillStyle=barGrad;
+  ctx.fillRect(0,CH-barH,CW,barH);
+
+  const CM=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const hh=String(Math.floor(nmd.hours)).padStart(2,'0');
+  const mm=String(Math.round((nmd.hours%1)*60)).padStart(2,'0');
+  const conjStr=`Conjunction: ${nmd.day} ${CM[nmd.month-1]} ${nmd.year}  ${hh}:${mm} UTC`;
+  ctx.font=`${CW>600?12:9}px "Space Mono",monospace`;
+  ctx.fillStyle='rgba(201,168,76,0.95)';
+  ctx.fillText(conjStr, 12, CH-10);
+
+  // ── 9. Top title bar ──
+  const topGrad=ctx.createLinearGradient(0,0,0,36);
+  topGrad.addColorStop(0,'rgba(5,8,18,0.88)');
+  topGrad.addColorStop(1,'rgba(5,8,18,0)');
+  ctx.fillStyle=topGrad;
+  ctx.fillRect(0,0,CW,36);
+  ctx.font=`bold ${CW>600?13:10}px "Space Mono",monospace`;
+  ctx.fillStyle='rgba(240,244,255,0.95)';
+  ctx.fillText(`${MN[month]} ${MA[month]} ${year} AH  ·  ${DL[day]}`, 12, 20);
+
+  // Done
+  document.getElementById('msp').classList.add('h');
+
+  // ── 10. Country panel ──
+  const bn=document.documentElement.getAttribute('data-lang')==='bn';
+  if(cn){
+    const{zone,arcl,q}=computeZone(clat,clon,nmJD,day);
+    document.getElementById('cpanel').style.display='block';
+    let badge='',detail='';
+    if(zone==='A'){
+      badge=`<div class="crb g">🟢 ${bn?'সহজেই খালি চোখে দৃশ্যমান':'Easily Visible — Naked Eye'}</div>`;
+      detail=bn?`${cn}-এ হিলাল সহজেই খালি চোখে দেখা যাবে। কৌণিক বিচ্ছেদ: ${arcl.toFixed(1)}°। সন্ধ্যার পরপরই পশ্চিম আকাশে তাকান।`:`The crescent should be easily visible naked-eye in ${cn}. Angular separation: ${arcl.toFixed(1)}°. Look west just after sunset.`;
+    }else if(zone==='B'){
+      badge=`<div class="crb a">🟡 ${bn?'অপটিক্যাল সাহায্যের প্রয়োজন হতে পারে':'May Need Optical Aid'}</div>`;
+      detail=bn?`${cn}-এ হিলাল দৃশ্যমান হতে পারে তবে অপটিক্যাল সাহায্যের প্রয়োজন হতে পারে। কৌণিক বিচ্ছেদ: ${arcl.toFixed(1)}°।`:`Crescent may be visible in ${cn} but optical aid might be needed. Angular separation: ${arcl.toFixed(1)}°.`;
+    }else if(zone==='C'){
+      badge=`<div class="crb y">🔭 ${bn?'শুধুমাত্র অপটিক্যাল যন্ত্রে':'Optical Aid Only'}</div>`;
+      detail=bn?`${cn}-এ হিলাল শুধুমাত্র দূরবীক্ষণ বা বাইনোকুলারের সাহায্যে দেখা যেতে পারে। কৌণিক বিচ্ছেদ: ${arcl.toFixed(1)}°।`:`Crescent in ${cn} may only be detectable with binoculars or telescope. Angular separation: ${arcl.toFixed(1)}°.`;
+    }else if(zone==='D'){
+      badge=`<div class="crb" style="background:rgba(210,130,20,0.1);color:#d48020;border:1px solid rgba(210,130,20,0.3);">🟠 ${bn?'অত্যন্ত প্রান্তিক':'Extremely Marginal'}</div>`;
+      detail=bn?`${cn}-তে এই তারিখে হিলাল দেখা অত্যন্ত কঠিন। কৌণিক বিচ্ছেদ মাত্র ${arcl.toFixed(1)}°।`:`Sighting in ${cn} extremely difficult. Angular separation only ${arcl.toFixed(1)}°.`;
+    }else{
+      badge=`<div class="crb r">🔴 ${bn?'দৃশ্যমান নয়':'Not Visible'}</div>`;
+      detail=bn?`${cn}-তে এই তারিখে হিলাল দেখা সম্ভব নয়। সংযোগের আগে বা চাঁদ দিগন্তের নিচে।`:`The crescent is not visible in ${cn} on this date. Moon is at/before conjunction or below horizon.`;
+    }
+    document.getElementById('cr').innerHTML=`<div class="crn">${cn}</div><div class="crs">${MN[month]} ${year} AH · ${DL[day]} · arcl = ${arcl.toFixed(1)}° · q = ${q.toFixed(3)}</div>${badge}<p class="crd">${detail}</p>`;
+  }else{
+    document.getElementById('cpanel').style.display='none';
+  }
+}
+
+// ══ CHECKER ════════════════════════════════
+function runChecker(){
+  const arcl =parseFloat(document.getElementById('v-arcl').value);
+  const hours=parseFloat(document.getElementById('v-hours').value);
+  const illum=parseFloat(document.getElementById('v-illum').value);
+  const lag  =parseFloat(document.getElementById('v-lag').value);
+  const box  =document.getElementById('chk-result');
+  const ttl  =document.getElementById('chk-title');
+  const bdy  =document.getElementById('chk-body');
+  const bn   =document.documentElement.getAttribute('data-lang')==='bn';
+
+  // Reset
+  box.className='rb'; box.style.display='none';
+
+  // Validate
+  const missing=[];
+  if(isNaN(arcl))missing.push(bn?'কৌণিক বিচ্ছেদ':'Angular Separation');
+  if(isNaN(hours))missing.push(bn?'সংযোগের পর ঘণ্টা':'Hours Since Conjunction');
+  if(isNaN(illum))missing.push(bn?'আলোকসজ্জা':'Illumination %');
+  if(isNaN(lag))missing.push(bn?'চন্দ্রাস্তের ব্যবধান':'Moonset Lag');
+  if(missing.length>0){
+    box.className='rb ru'; ttl.textContent=bn?'⚠ অসম্পূর্ণ তথ্য':'⚠ Missing Values';
+    bdy.innerHTML=(bn?'<p>দয়া করে এই ক্ষেত্রগুলো পূরণ করুন: ':'<p>Please fill in: ')+missing.join(', ')+'</p>';
+    box.style.display='block'; return;
+  }
+
+  // Hard failure criteria
+  const fails=[];
+  if(arcl<10) fails.push(bn?`কৌণিক বিচ্ছেদ ${arcl}° — ন্যূনতম ১০° এর নিচে (সূর্যের আলোর কারণে অসম্ভব)`:`Angular separation ${arcl}° is below the 10° minimum — Sun's glare makes sighting impossible`);
+  if(hours<15) fails.push(bn?`সংযোগের পর মাত্র ${hours} ঘণ্টা — কমপক্ষে ১৫ ঘণ্টা প্রয়োজন`:`Only ${hours}h since conjunction — a minimum of 15 hours is required`);
+  if(lag<=0)   fails.push(bn?`চাঁদ সূর্যের আগে বা সাথে অস্ত যায় (${lag} মিনিট) — পর্যবেক্ষণের সুযোগ নেই`:`Moon sets before or at same time as Sun (${lag} min) — no observation window`);
+  if(illum<0.5)fails.push(bn?`আলোকসজ্জা মাত্র ${illum}% — ০.৫% এর নিচে কোনোভাবেই দেখা সম্ভব নয়`:`Illumination only ${illum}% — below 0.5%, sighting is scientifically impossible`);
+
+  if(fails.length>0){
+    box.className='rb ri';
+    ttl.textContent=bn?'✗ হিলাল দর্শন অসম্ভব':'✗ Sighting Impossible';
+    bdy.innerHTML=(bn?'<p>এই মানদণ্ডগুলো পূরণ হয়নি:':'<p>The following criteria are not met:')+'</p><ul style="margin:.7rem 0 0 1.2rem;line-height:1.9">'
+      +fails.map(f=>`<li>${f}</li>`).join('')+'</ul>';
+    box.style.display='block'; return;
+  }
+
+  // Marginal check
+  const marginal=(arcl<10.5)||(hours<18)||(illum<1.0)||(lag<20);
+  if(marginal){
+    const reasons=[];
+    if(arcl<10.5)  reasons.push(bn?`ARCL ${arcl}° < ১০.৫° (প্রান্তিক)`:`ARCL ${arcl}° is below the comfortable 10.5° threshold`);
+    if(hours<18)   reasons.push(bn?`মাত্র ${hours}ঘ সংযোগ পর (১৮ঘ+ আদর্শ)`:`Only ${hours}h since conjunction (18h+ is ideal)`);
+    if(illum<1.0)  reasons.push(bn?`আলোকসজ্জা ${illum}% (১%+ আদর্শ)`:`Illumination ${illum}% is below ideal 1%`);
+    if(lag<20)     reasons.push(bn?`চন্দ্রাস্তের ব্যবধান মাত্র ${lag} মিনিট (২০+ মিনিট আদর্শ)`:`Moonset lag only ${lag} min (20+ min is ideal)`);
+    box.className='rb ru';
+    ttl.textContent=bn?'⚡ প্রান্তিক — আদর্শ অবস্থায় সম্ভব':'⚡ Marginal — Possible Under Ideal Conditions';
+    bdy.innerHTML=(bn?'<p>সমস্ত কঠোর মানদণ্ড পূরণ হয়েছে, তবে কিছু সূচক প্রান্তিক:':'<p>All hard criteria pass, but some indicators are marginal:')+'</p><ul style="margin:.7rem 0 .8rem 1.2rem;line-height:1.9">'
+      +reasons.map(r=>`<li>${r}</li>`).join('')+'</ul>'
+      +(bn?'<p>নিখুঁত আকাশে অভিজ্ঞ পর্যবেক্ষকের পক্ষে দেখা সম্ভব হতে পারে। আরও নিশ্চিত হতে পরের দিনও চেষ্টা করুন।</p>':'<p>Sighting may be possible for experienced observers under perfect sky conditions. Consider also checking the next day for a more reliable sighting.</p>');
+    box.style.display='block'; return;
+  }
+
+  // All pass
+  box.className='rb rv';
+  ttl.textContent=bn?'✓ হিলাল দর্শন প্রত্যাশিত':'✓ Sighting Expected';
+  bdy.innerHTML=bn
+    ?`<p>সমস্ত মানদণ্ড পাস হয়েছে। পরিষ্কার আকাশে <strong>হিলাল খালি চোখে দৃশ্যমান হওয়া উচিত</strong>।</p><ul style="margin:.7rem 0 0 1.2rem;line-height:1.9"><li>কৌণিক বিচ্ছেদ: <strong>${arcl}°</strong> ✓</li><li>সংযোগের পর: <strong>${hours} ঘণ্টা</strong> ✓</li><li>আলোকসজ্জা: <strong>${illum}%</strong> ✓</li><li>চন্দ্রাস্তের ব্যবধান: <strong>+${lag} মিনিট</strong> ✓</li></ul><p style="margin-top:.8rem">সূর্যাস্তের ঠিক পরে পশ্চিম দিগন্তের দিকে তাকান। আকাশ মেঘলা হলে ৩০ দিন পূর্ণ করুন।</p>`
+    :`<p>All criteria pass. The crescent <strong>should be visible to the naked eye</strong> in a clear sky.</p><ul style="margin:.7rem 0 0 1.2rem;line-height:1.9"><li>Angular separation: <strong>${arcl}°</strong> ✓</li><li>Hours since conjunction: <strong>${hours}h</strong> ✓</li><li>Illumination: <strong>${illum}%</strong> ✓</li><li>Moonset lag: <strong>+${lag} min</strong> ✓</li></ul><p style="margin-top:.8rem">Look west just after sunset. If sky is cloudy, complete 30 days per the Hadith.</p>`;
+  box.style.display='block';
+}
+
+// Article toggle
+function toggleArticle(){
+  const body=document.getElementById('art-body');
+  const btn=document.getElementById('art-toggle-btn');
+  const bn=document.documentElement.getAttribute('data-lang')==='bn';
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  if(isOpen){
+    btn.innerHTML=bn?'▼ সম্পূর্ণ নিবন্ধ দেখুন':'▼ Show Full Article';
+  }else{
+    btn.innerHTML=bn?'▲ নিবন্ধ লুকান':'▲ Hide Article';
+    // Sync article language tab with site language
+    setArticleLang(document.documentElement.getAttribute('data-lang')||'en');
+  }
+}
+
+// Article language tabs (independent from site lang toggle)
+function setArticleLang(l){
+  document.getElementById('art-en').style.display=l==='en'?'block':'none';
+  document.getElementById('art-bn').style.display=l==='bn'?'block':'none';
+  const enBtn=document.getElementById('aln-en');
+  const bnBtn=document.getElementById('aln-bn');
+  if(enBtn){
+    enBtn.style.color=l==='en'?'var(--gold)':'var(--text-dim)';
+    enBtn.style.borderBottom=l==='en'?'2px solid var(--gold)':'2px solid transparent';
+  }
+  if(bnBtn){
+    bnBtn.style.color=l==='bn'?'var(--gold)':'var(--text-dim)';
+    bnBtn.style.borderBottom=l==='bn'?'2px solid var(--gold)':'2px solid transparent';
+  }
+}
+
+// Mobile menu
+function toggleMobileMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const ham=document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  ham.classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// Close menu when tapping outside
+document.addEventListener('click',function(e){
+  const menu=document.getElementById('mobileMenu');
+  const ham=document.getElementById('hamburger');
+  if(menu.classList.contains('open')&&!menu.contains(e.target)&&!ham.contains(e.target)){
+    closeMobileMenu();
+  }
+});
+
+</script>
+</body>
+</html>
