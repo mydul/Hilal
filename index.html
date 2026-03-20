@@ -1127,7 +1127,8 @@ function drawMap(month,year,day,cn,clat,clon){
       const abbr=abbrFmt.formatToParts(conjDate)
         .find(x=>x.type==='timeZoneName')?.value||'';
 
-      localStr=` (${cn}: ${p.day} ${p.month} ${p.year} ${p.hour}:${p.minute} ${offsetStr} ${abbr})`;
+      const tzSuffix = abbr===offsetStr || abbr.startsWith('GMT') ? offsetStr : `${offsetStr} ${abbr}`;
+      localStr=` (${cn}: ${p.day} ${p.month} ${p.year} ${p.hour}:${p.minute} ${tzSuffix})`;
     }catch(e){
       localStr='';
     }
